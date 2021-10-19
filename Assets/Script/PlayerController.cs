@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("設定項目")]
     [SerializeField] float m_moveSpeed; //プレイヤーのスピード
+    [SerializeField] float m_jumpPower; //ジャンプの力
     [SerializeField] float m_dropSpeed;
     [SerializeField] float m_mouseSensitivity = 100f; //マウス感度
     [Space(1)]
@@ -20,6 +21,9 @@ public class PlayerController : MonoBehaviour
         SetUp();
     }
 
+    /// <summary>
+    /// GetComPonent等のセットアップ
+    /// </summary>
     void SetUp()
     {
         m_rb = GetComponent<Rigidbody>();
@@ -30,6 +34,9 @@ public class PlayerController : MonoBehaviour
         Mouse(); 
     }
 
+    /// <summary>
+    /// マウス処理
+    /// </summary>
     void Mouse()
     {
         float inputMouseX = Input.GetAxis("Mouse X");
@@ -51,18 +58,32 @@ public class PlayerController : MonoBehaviour
     {
         Status();
         Move();
+        Jump();
     }
 
     void Status()
     {
-        //m_rb.velocity.y -=
 
     }
 
+    /// <summary>
+    /// プレイヤーの動き　前横
+    /// </summary>
     void Move()
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-        m_rb.velocity = (transform.forward * v * m_moveSpeed) + (transform.right * h * m_moveSpeed);
+        m_rb.velocity = ((transform.forward * v) + (transform.right * h)).normalized * m_moveSpeed;
+    }
+
+    /// <summary>
+    /// ジャンプ処理(途中)
+    /// </summary>
+    void Jump()
+    {
+        if(Input.GetButtonDown("Jump"))
+        {
+            m_rb.velocity = transform.up * m_jumpPower;
+        }
     }
 }
