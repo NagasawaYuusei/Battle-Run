@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
     Rigidbody m_rb; //Rigidbody
-    float m_mouseX; //マウスの横入力の箱 
-    float m_mouseY; // マウスの縦入力の箱
 
     [Header("設定項目")]
     [SerializeField] float m_moveSpeed; //プレイヤーのスピード
@@ -22,38 +21,19 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// GetComPonent等のセットアップ
+    /// GetComponent等のセットアップ
     /// </summary>
     void SetUp()
     {
-        m_rb = GetComponent<Rigidbody>();
+        m_rb = this.GetComponent<Rigidbody>();
+   
     }
 
     void Update()
     {
-        Mouse(); 
+        
     }
 
-    /// <summary>
-    /// マウス処理
-    /// </summary>
-    void Mouse()
-    {
-        float inputMouseX = Input.GetAxis("Mouse X");
-        float inputMouseY = Input.GetAxis("Mouse Y");
-        m_mouseX += inputMouseX * m_mouseSensitivity;
-        m_mouseY += inputMouseY * m_mouseSensitivity;
-        if(m_mouseY >= 90)
-        {
-            m_mouseY = 90;
-        }
-        if(m_mouseY <= -90)
-        {
-            m_mouseY = -90;
-        }
-        m_camera.transform.localRotation = Quaternion.Euler(-m_mouseY, 0, 0);
-        transform.localRotation = Quaternion.Euler(0, m_mouseX, 0);
-    }
     void FixedUpdate()
     {
         Status();
@@ -63,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
     void Status()
     {
-
+       
     }
 
     /// <summary>
@@ -73,7 +53,10 @@ public class PlayerController : MonoBehaviour
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-        m_rb.velocity = ((transform.forward * v) + (transform.right * h)).normalized * m_moveSpeed;
+        Vector3 dir = (Vector3.right * h) + (Vector3.forward * v);
+        dir = Camera.main.transform.TransformDirection(dir);
+        dir.y = 0;
+        m_rb.velocity = dir.normalized * m_moveSpeed + m_rb.velocity.y * Vector3.up;  // Y 軸方向の速度は変えない
     }
 
     /// <summary>
