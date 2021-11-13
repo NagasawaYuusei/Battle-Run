@@ -7,18 +7,19 @@
 public class PlayerController : MonoBehaviour
 {
     Rigidbody m_rb; //Rigidbody
-    Vector3 m_centor;
-    Vector3 m_size;
+    Vector3 m_centor; //設置判定の中点
+    Vector3 m_size; //設置判定のサイズ
+    float m_nowSpeed;
 
     //Input
     float m_horizontal; //Horizontal
     float m_vertical; //Vertical
-    bool m_isJump; //Jump
 
     [Header("Settings")]
 
-    /// <summary>プレイヤーのスピード</summary>
-    [SerializeField] float m_moveSpeed;
+    [SerializeField] float m_firstSpeed;
+    /// <summary>プレイヤーの最大スピード</summary>
+    [SerializeField] float m_maxMoveSpeed;
     /// <summary>ジャンプの力</summary>
     [SerializeField] float m_jumpPower;
     /// <summary>設置判定のGizmoを表示するかどうか</summary>
@@ -27,14 +28,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Vector3 m_collisionPoint;
     /// <summary>設置判定サイズ</summary>
     [SerializeField] Vector3 m_collisionSize;
+
     //[SerializeField] float m_dropSpeed;
     //[SerializeField] float m_mouseSensitivity = 1f; //マウス感度
+
     [Space(1)]
 
     [Header("UseScript")]
     [SerializeField] LayerMask m_zimen;
     //[SerializeField] CinemachineVirtualCamera m_chinemachineFPS;
-
 
     void Start()
     {
@@ -47,7 +49,6 @@ public class PlayerController : MonoBehaviour
     void SetUp()
     {
         m_rb = this.GetComponent<Rigidbody>();
-   
     }
 
     void Update()
@@ -56,10 +57,17 @@ public class PlayerController : MonoBehaviour
         PlayerInput();
     }
 
+    /// <summary>
+    /// 現状のプレイヤーステータス
+    /// </summary>
     void States()
     {
         m_centor = transform.position + m_collisionPoint;
         m_size = transform.localScale + m_collisionSize;
+        if(m_vertical == 0 && m_horizontal == 0)
+        {
+            m_nowSpeed = 0;
+        }
         //m_chinemachineFPS.m_HorizontalAxis.m_MaxSpeed = m_chinemachineFPS.m_HorizontalAxis.m_MaxSpeed * m_mouseSensitivity;
         //m_chinemachineFPS.m_VerticalAxis.m_MaxSpeed = m_chinemachineFPS.m_VerticalAxis.m_MaxSpeed * m_mouseSensitivity;
         //m_chinemachineFPS.m_XAxis.m_MaxSpeed = m_chinemachineFPS.m_XAxis.m_MaxSpeed * m_mouseSensitivity;
@@ -73,19 +81,15 @@ public class PlayerController : MonoBehaviour
     {
         m_horizontal = Input.GetAxisRaw("Horizontal");
         m_vertical = Input.GetAxisRaw("Vertical");
-        m_isJump = Input.GetButtonDown("Jump");
+        if(Input.GetButtonDown("Jump"))
+        {
+            Jump();
+        }
     }
 
     void FixedUpdate()
     {
-        FixedStatus();
-        Move(m_horizontal,m_vertical);
-        Jump(m_isJump);
-    }
-
-    void FixedStatus()
-    {
-       
+        Move(m_horizontal, m_vertical);
     }
 
     /// <summary>
@@ -93,26 +97,39 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Move(float h,float v)
     {
-        h = Input.GetAxisRaw("Horizontal");
-        v = Input.GetAxisRaw("Vertical");
         Vector3 dir = (Vector3.right * h) + (Vector3.forward * v);
         dir = Camera.main.transform.TransformDirection(dir);
         dir.y = 0;
-        m_rb.velocity = dir.normalized * m_moveSpeed + m_rb.velocity.y * Vector3.up;  // Y 軸方向の速度は変えない
+        if(m_nowSpeed == 0)
+        {
+            m_nowSpeed = m_firstSpeed;
+        }
+        else if(m_maxMoveSpeed > m_nowSpeed)
+        {
+            m_nowSpeed += Time.deltaTime * 3;
+        }
+        m_rb.velocity = dir.normalized * m_nowSpeed + m_rb.velocity.y * Vector3.up;  // Y 軸方向の速度は変えない
     }
 
     /// <summary>
-    /// ジャンプ処理(途中)
+    /// ジャンプ処理(途中)　縦
     /// </summary>
-    void Jump(bool j)
+    void Jump()
     {
-        if(j && IsGround())
+        if(IsGround())
         {
             Debug.Log("Jump");
-            m_rb.velocity = transform.up * m_jumpPower;
+            m_rb.velocity = transform.up * m_jumpPower; //+ m_rb.velocity.x * Vector3.right + m_rb.velocity.z * Vector3.forward;
         }
     }
 
+    /// <summary>
+    /// 設置判定
+    /// </summary>
+    /// <returns>
+    /// 接地 true 
+    /// 空中 false
+    /// </returns>
     bool IsGround()
     {
         Collider[] collision = Physics.OverlapBox(m_centor, m_size,Quaternion.identity, m_zimen);
@@ -126,6 +143,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 設置判定のGizmo表示
+    /// </summary>
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
