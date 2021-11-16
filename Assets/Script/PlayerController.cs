@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Cinemachine;
 //using Cinemachine;
 
 /// <summary>
@@ -10,16 +11,16 @@ public class PlayerController : MonoBehaviour
     Vector3 m_centor; //設置判定の中点
     Vector3 m_size; //設置判定のサイズ
     float m_nowSpeed;
+    Vector3 m_nowdir;
+    CinemachineTransposer m_cinemaTransposer;
+    bool m_isDown;
+    float m_firstOffsetY;
 
     //Input
     float m_horizontal; //Horizontal
     float m_vertical; //Vertical
 
     [Header("Settings")]
-
-    [SerializeField] float m_firstSpeed;
-    /// <summary>プレイヤーの最大スピード</summary>
-    [SerializeField] float m_maxMoveSpeed;
     /// <summary>ジャンプの力</summary>
     [SerializeField] float m_jumpPower;
     /// <summary>設置判定のGizmoを表示するかどうか</summary>
@@ -28,15 +29,52 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Vector3 m_collisionPoint;
     /// <summary>設置判定サイズ</summary>
     [SerializeField] Vector3 m_collisionSize;
+    [SerializeField] float m_cameraMutation;
 
     //[SerializeField] float m_dropSpeed;
     //[SerializeField] float m_mouseSensitivity = 1f; //マウス感度
 
     [Space(1)]
-
     [Header("UseScript")]
     [SerializeField] LayerMask m_zimen;
+    [SerializeField] CinemachineVirtualCamera m_cinema;
     //[SerializeField] CinemachineVirtualCamera m_chinemachineFPS;
+
+    /// <summary>
+    /// カプセル化開始
+    /// </summary>
+    
+    public float NowSpeed
+    {
+        get
+        {
+            return m_nowSpeed;
+        }
+        set
+        {
+            m_nowSpeed = value;
+        }
+    }
+
+    public float Horizontal
+    {
+        get
+        {
+            return m_horizontal;
+        }
+    }
+
+    public float Vertical
+    {
+        get
+        {
+            return m_vertical;
+        }
+    }
+
+    /// <summary>
+    /// カプセル化終了
+    /// </summary>
 
     void Start()
     {
@@ -49,6 +87,8 @@ public class PlayerController : MonoBehaviour
     void SetUp()
     {
         m_rb = this.GetComponent<Rigidbody>();
+        m_cinemaTransposer = m_cinema.GetCinemachineComponent<CinemachineTransposer>();
+        m_firstOffsetY = m_cinemaTransposer.m_FollowOffset.y;
     }
 
     void Update()
@@ -62,16 +102,19 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void States()
     {
+        ///Gizmo
         m_centor = transform.position + m_collisionPoint;
         m_size = transform.localScale + m_collisionSize;
-        if(m_vertical == 0 && m_horizontal == 0)
+
+        if(!m_isDown)
         {
-            m_nowSpeed = 0;
+            m_cinemaTransposer.m_FollowOffset.y += m_cameraMutation;
+            if (m_cinemaTransposer.m_FollowOffset.y >= m_firstOffsetY)
+            {
+                m_cinemaTransposer.m_FollowOffset.y = m_firstOffsetY;
+            }
+            transform.localScale = new Vector3(1, 1, 1);
         }
-        //m_chinemachineFPS.m_HorizontalAxis.m_MaxSpeed = m_chinemachineFPS.m_HorizontalAxis.m_MaxSpeed * m_mouseSensitivity;
-        //m_chinemachineFPS.m_VerticalAxis.m_MaxSpeed = m_chinemachineFPS.m_VerticalAxis.m_MaxSpeed * m_mouseSensitivity;
-        //m_chinemachineFPS.m_XAxis.m_MaxSpeed = m_chinemachineFPS.m_XAxis.m_MaxSpeed * m_mouseSensitivity;
-        //m_chinemachineFPS.m_YAxis.m_MaxSpeed = m_chinemachineFPS.m_YAxis.m_MaxSpeed * m_mouseSensitivity;
     }
 
     /// <summary>
@@ -81,9 +124,20 @@ public class PlayerController : MonoBehaviour
     {
         m_horizontal = Input.GetAxisRaw("Horizontal");
         m_vertical = Input.GetAxisRaw("Vertical");
+
         if(Input.GetButtonDown("Jump"))
         {
             Jump();
+        }
+
+        if(Input.GetButton("Down"))
+        {
+            Down();
+            m_isDown = true;
+        }
+        else
+        {
+            m_isDown = false;
         }
     }
 
@@ -100,15 +154,11 @@ public class PlayerController : MonoBehaviour
         Vector3 dir = (Vector3.right * h) + (Vector3.forward * v);
         dir = Camera.main.transform.TransformDirection(dir);
         dir.y = 0;
-        if(m_nowSpeed == 0)
+        if(h != 0 || v != 0)
         {
-            m_nowSpeed = m_firstSpeed;
+            m_nowdir = dir;
         }
-        else if(m_maxMoveSpeed > m_nowSpeed)
-        {
-            m_nowSpeed += Time.deltaTime * 3;
-        }
-        m_rb.velocity = dir.normalized * m_nowSpeed + m_rb.velocity.y * Vector3.up;  // Y 軸方向の速度は変えない
+        m_rb.velocity = m_nowdir.normalized * m_nowSpeed + m_rb.velocity.y * Vector3.up;  // Y 軸方向の速度は変えない
     }
 
     /// <summary>
@@ -118,9 +168,21 @@ public class PlayerController : MonoBehaviour
     {
         if(IsGround())
         {
-            Debug.Log("Jump");
             m_rb.velocity = transform.up * m_jumpPower; //+ m_rb.velocity.x * Vector3.right + m_rb.velocity.z * Vector3.forward;
         }
+    }
+
+    /// <summary>
+    /// しゃがみ処理
+    /// </summary>
+    void Down()
+    {
+        m_cinemaTransposer.m_FollowOffset.y -= m_cameraMutation;
+        if(m_cinemaTransposer.m_FollowOffset.y <= 1)
+        {
+            m_cinemaTransposer.m_FollowOffset.y = 1;
+        }
+        transform.localScale = new Vector3(1, 0.57f, 1);
     }
 
     /// <summary>
