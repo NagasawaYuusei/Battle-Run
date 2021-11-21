@@ -15,10 +15,14 @@ public class PlayerController : MonoBehaviour
     CinemachineTransposer m_cinemaTransposer;
     bool m_isDown;
     float m_firstOffsetY;
+    PlayerSpeed m_playerSpeedSp;
+    float m_slideTime;
+    bool m_isBomb = true;
 
     //Input
     float m_horizontal; //Horizontal
     float m_vertical; //Vertical
+    bool m_dash;
 
     [Header("Settings")]
     /// <summary>ジャンプの力</summary>
@@ -38,12 +42,14 @@ public class PlayerController : MonoBehaviour
     [Header("UseScript")]
     [SerializeField] LayerMask m_zimen;
     [SerializeField] CinemachineVirtualCamera m_cinema;
+    [SerializeField] GameObject m_bomb;
+    [SerializeField] Transform m_bombMuzzle;
     //[SerializeField] CinemachineVirtualCamera m_chinemachineFPS;
 
     /// <summary>
     /// カプセル化開始
     /// </summary>
-    
+
     public float NowSpeed
     {
         get
@@ -72,6 +78,38 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public bool IsDown
+    {
+        get
+        {
+            return m_isDown;
+        }
+    }
+
+    public bool Dash
+    {
+        get
+        {
+            return m_dash;
+        }
+        set
+        {
+            m_dash = value;
+        }
+    }
+
+    public bool IsBomb
+    {
+        get
+        {
+            return m_isBomb;
+        }
+        set
+        {
+            m_isBomb = value;
+        }
+    }
+
     /// <summary>
     /// カプセル化終了
     /// </summary>
@@ -87,8 +125,10 @@ public class PlayerController : MonoBehaviour
     void SetUp()
     {
         m_rb = this.GetComponent<Rigidbody>();
+        m_playerSpeedSp = GetComponent<PlayerSpeed>();
         m_cinemaTransposer = m_cinema.GetCinemachineComponent<CinemachineTransposer>();
         m_firstOffsetY = m_cinemaTransposer.m_FollowOffset.y;
+        m_slideTime = 2;
     }
 
     void Update()
@@ -105,6 +145,8 @@ public class PlayerController : MonoBehaviour
         ///Gizmo
         m_centor = transform.position + m_collisionPoint;
         m_size = transform.localScale + m_collisionSize;
+
+        m_slideTime += Time.deltaTime;
 
         if(!m_isDown)
         {
@@ -130,15 +172,66 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
 
-        if(Input.GetButton("Down"))
+        if(Input.GetButton("Down") && IsGround())
         {
             Down();
             m_isDown = true;
+            
         }
         else
         {
             m_isDown = false;
         }
+
+        if(Input.GetButtonDown("Down") && IsGround() && m_slideTime > 1f)
+        {
+            m_playerSpeedSp.Slide = true;
+            m_slideTime = 0;
+        }
+
+        if(Input.GetButton("Fire3"))
+        {
+            m_dash = true;
+        }
+        else
+        {
+            m_dash = false;
+        }
+
+        if(Input.GetButtonDown("Bomb") && m_isBomb)
+        {
+            m_isBomb = false;
+            BombFire();
+        }
+    }
+
+    /// <summary>
+    /// ジャンプ処理(途中)　縦
+    /// </summary>
+    void Jump()
+    {
+        if (IsGround())
+        {
+            m_rb.velocity = transform.up * m_jumpPower; //+ m_rb.velocity.x * Vector3.right + m_rb.velocity.z * Vector3.forward;
+        }
+    }
+
+    /// <summary>
+    /// しゃがみ処理
+    /// </summary>
+    void Down()
+    {
+        m_cinemaTransposer.m_FollowOffset.y -= m_cameraMutation;
+        if (m_cinemaTransposer.m_FollowOffset.y <= 1)
+        {
+            m_cinemaTransposer.m_FollowOffset.y = 1;
+        }
+        transform.localScale = new Vector3(1, 0.57f, 1);
+    }
+
+    void BombFire()
+    {
+        Instantiate(m_bomb,m_bombMuzzle.position,Quaternion.identity);
     }
 
     void FixedUpdate()
@@ -162,37 +255,13 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// ジャンプ処理(途中)　縦
-    /// </summary>
-    void Jump()
-    {
-        if(IsGround())
-        {
-            m_rb.velocity = transform.up * m_jumpPower; //+ m_rb.velocity.x * Vector3.right + m_rb.velocity.z * Vector3.forward;
-        }
-    }
-
-    /// <summary>
-    /// しゃがみ処理
-    /// </summary>
-    void Down()
-    {
-        m_cinemaTransposer.m_FollowOffset.y -= m_cameraMutation;
-        if(m_cinemaTransposer.m_FollowOffset.y <= 1)
-        {
-            m_cinemaTransposer.m_FollowOffset.y = 1;
-        }
-        transform.localScale = new Vector3(1, 0.57f, 1);
-    }
-
-    /// <summary>
     /// 設置判定
     /// </summary>
     /// <returns>
     /// 接地 true 
     /// 空中 false
     /// </returns>
-    bool IsGround()
+    public bool IsGround()
     {
         Collider[] collision = Physics.OverlapBox(m_centor, m_size,Quaternion.identity, m_zimen);
         if (collision.Length != 0)
