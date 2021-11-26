@@ -107,14 +107,12 @@ public class PlayerWallRun : MonoBehaviour
                 Vector3 wallRunJumpDirection = transform.up + m_leftWallHit.normal;
                 m_rb.velocity = new Vector3(m_rb.velocity.x, 0, m_rb.velocity.z);
                 m_rb.AddForce(wallRunJumpDirection * m_wallRunJumpForce * 100, ForceMode.Force);
-                Debug.Log("wallJump");
             }
             else if(m_wallRight)
             {
                 Vector3 wallRunJumpDirection = transform.up + m_rightWallHit.normal;
                 m_rb.velocity = new Vector3(m_rb.velocity.x, 0, m_rb.velocity.z);
                 m_rb.AddForce(wallRunJumpDirection * m_wallRunJumpForce * 100, ForceMode.Force);
-                Debug.Log("wallJump");
             }
 
         }

@@ -155,6 +155,8 @@ public class PlayerController : MonoBehaviour
             {
                 m_cinemaTransposer.m_FollowOffset.y = m_firstOffsetY;
             }
+
+            m_cinemaTransposer.m_FollowOffset.y = Mathf.Lerp(m_cinemaTransposer.m_FollowOffset.y, m_firstOffsetY, m_cameraMutation * Time.deltaTime * 2);
             transform.localScale = new Vector3(1, 1, 1);
         }
     }
@@ -175,8 +177,7 @@ public class PlayerController : MonoBehaviour
         if(Input.GetButton("Down") && IsGround())
         {
             Down();
-            m_isDown = true;
-            
+            m_isDown = true;  
         }
         else
         {
@@ -221,11 +222,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Down()
     {
-        m_cinemaTransposer.m_FollowOffset.y -= m_cameraMutation;
-        if (m_cinemaTransposer.m_FollowOffset.y <= 1)
-        {
-            m_cinemaTransposer.m_FollowOffset.y = 1;
-        }
+        m_cinemaTransposer.m_FollowOffset.y = Mathf.Lerp(m_cinemaTransposer.m_FollowOffset.y, 1, m_cameraMutation * Time.deltaTime);
+
         transform.localScale = new Vector3(1, 0.57f, 1);
     }
 

@@ -65,7 +65,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Cursor\CursorManeger.cs" />
+    <Compile Include="Assets\Input\ButtonScript.cs" />
+    <Compile Include="Assets\Input\SettingsOpen.cs" />
+    <Compile Include="Assets\RotateArm.cs" />
     <Compile Include="Assets\Script\BlastBomb.cs" />
+    <Compile Include="Assets\Script\Player\GrapllingHook.cs" />
     <Compile Include="Assets\Script\Player\PlayerController.cs" />
     <Compile Include="Assets\Script\Player\PlayerGravity.cs" />
     <Compile Include="Assets\Script\Player\PlayerSpeed.cs" />
