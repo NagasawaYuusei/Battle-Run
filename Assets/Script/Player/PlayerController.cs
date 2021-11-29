@@ -110,6 +110,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public float JumpPower
+    {
+        get
+        {
+            return m_jumpPower;
+        }
+    }
+
     /// <summary>
     /// カプセル化終了
     /// </summary>

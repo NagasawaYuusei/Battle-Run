@@ -72,6 +72,7 @@
     <Compile Include="Assets\Script\Player\GrapllingHook.cs" />
     <Compile Include="Assets\Script\Player\PlayerController.cs" />
     <Compile Include="Assets\Script\Player\PlayerGravity.cs" />
+    <Compile Include="Assets\Script\Player\PlayerJoint.cs" />
     <Compile Include="Assets\Script\Player\PlayerSpeed.cs" />
     <Compile Include="Assets\Script\Player\PlayerWallRun.cs" />
     <Compile Include="Assets\Script\Player\UIManager.cs" />
