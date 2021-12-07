@@ -1021,7 +1021,7 @@ MonoBehaviour:
     OrthographicSize: 5
     NearClipPlane: 0.001
     FarClipPlane: 100
-    Dutch: 0
+    Dutch: 6.45231e-29
     LensShift: {x: 0, y: 0}
   m_Transitions:
     m_BlendHint: 0
