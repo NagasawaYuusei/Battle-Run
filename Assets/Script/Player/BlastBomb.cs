@@ -49,8 +49,8 @@ public class BlastBomb : MonoBehaviour
             if (rb != null)
                 rb.AddExplosionForce(m_bombPower, explosionPos, m_bombRadius,m_upwardsModifier);
         }
-        PlayerController pc = GameObject.Find(m_playerName).GetComponent<PlayerController>();
-        pc.IsBomb = true;
+        //PlayerController pc = GameObject.Find(m_playerName).GetComponent<PlayerController>();
+        //pc.IsBomb = true;
         Destroy(gameObject);
     }
 }

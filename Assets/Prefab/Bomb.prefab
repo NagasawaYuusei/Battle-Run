@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7423230783358531614}
   - component: {fileID: 7423230783358531613}
   - component: {fileID: 7423230783358531600}
-  - component: {fileID: 7423230783358531612}
   m_Layer: 11
   m_Name: Bomb
   m_TagString: Untagged
@@ -58,6 +57,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -82,6 +82,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!135 &7423230783358531613
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -111,24 +112,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7423230783358531612
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7423230783358531610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac51bc6daf97303458e79298e5996e17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_bombPower: 2500
-  m_bombRadius: 10
-  m_upwardsModifier: 3
-  m_human:
-    serializedVersion: 2
-    m_Bits: 1024
-  m_playerName: Player
-  m_firstPower: 15
-  m_bombMazzleName: BombMazzle
