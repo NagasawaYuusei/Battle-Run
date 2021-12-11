@@ -1,35 +1,39 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Cinemachine;
+using UnityEngine.InputSystem;
 
 public class PlayerWallRun : MonoBehaviour
 {
-    [SerializeField] Transform m_player;
+    [Header("UseScript")]
+    [SerializeField] Transform m_playerCamera; //プレイヤーカメラのトランスフォーム
 
-    [SerializeField] float m_wallDistance = 0.5f;
-    [SerializeField] float m_minimumJumpHeight = 1.5f;
+    [Header("WallRunPlayerStates")]
+    [SerializeField] float m_wallRunGravity; //ウォールラン時の重力
+    [SerializeField] float m_wallRunJumpForce; //ウォールラン中のジャンプパワー
 
-    [SerializeField] float m_wallRunGravity;
-    [SerializeField] float m_wallRunJumpForce;
+    [Header("Camera")]
+    [SerializeField] CinemachineVirtualCamera m_cam; //cinemachine
+    [SerializeField] float m_fov; //通常時視野角
+    [SerializeField] float m_wallRunfovTime; //視野角変化までの偏移時間
+    [SerializeField] float m_camTilt; //ウォールラン時のカメラ角度
+    [SerializeField] float m_camTiltTime; //角度変化までの時間偏移
+    float m_tilt; //角度状態
 
-    [SerializeField] LayerMask m_wall;
+    //[Header("IsWall")]
+    bool m_wallLeft = false; //左の壁かどうか
+    bool m_wallRight = false; //右の壁かどうか
+    RaycastHit m_leftWallHit; //あたった左の壁
+    RaycastHit m_rightWallHit; //あたった右の壁
+    [SerializeField] float m_wallDistance = 0.5f; //判定距離
+    [SerializeField] float m_minimumJumpHeight = 1.5f; //ジャンプした際の判定距離
+    [SerializeField] LayerMask m_wall; //ランウォールのレイヤー
 
-    [SerializeField] CinemachineVirtualCamera m_cam;
-    [SerializeField] float m_fov;
-    [SerializeField] float m_wallRunfovTime;
-    [SerializeField] float m_camTilt;
-    [SerializeField] float m_camTiltTime;
-    float m_tilt;
+    //[Header("Input")]
+    bool m_isWallJump;
 
-    bool m_wallLeft = false;
-    bool m_wallRight = false;
-
-    RaycastHit m_leftWallHit;
-    RaycastHit m_rightWallHit;
-
-
+    //[Header("Ather")]
     Rigidbody m_rb;
+
 
     public float Tilt
     {
@@ -51,8 +55,8 @@ public class PlayerWallRun : MonoBehaviour
 
     void CheckWall()
     {
-        m_wallLeft = Physics.Raycast(transform.position, -m_player.right, out m_leftWallHit, m_wallDistance, m_wall);
-        m_wallRight = Physics.Raycast(transform.position, m_player.right, out m_rightWallHit, m_wallDistance, m_wall);
+        m_wallLeft = Physics.Raycast(transform.position, -m_playerCamera.right, out m_leftWallHit, m_wallDistance, m_wall);
+        m_wallRight = Physics.Raycast(transform.position, m_playerCamera.right, out m_rightWallHit, m_wallDistance, m_wall);
     }
 
     void Update()
@@ -100,7 +104,7 @@ public class PlayerWallRun : MonoBehaviour
             m_tilt = Mathf.Lerp(m_tilt, m_camTilt, m_camTiltTime * Time.deltaTime);
         }
 
-        if (Input.GetButtonDown("Jump"))
+        if (m_isWallJump)
         {
             if(m_wallLeft)
             {
@@ -114,7 +118,7 @@ public class PlayerWallRun : MonoBehaviour
                 m_rb.velocity = new Vector3(m_rb.velocity.x, 0, m_rb.velocity.z);
                 m_rb.AddForce(wallRunJumpDirection * m_wallRunJumpForce * 100, ForceMode.Force);
             }
-
+            m_isWallJump = false;
         }
     }
 
@@ -128,5 +132,11 @@ public class PlayerWallRun : MonoBehaviour
     void Camera()
     {
         m_cam.m_Lens.Dutch = m_tilt;
+    }
+
+    /// <summary>ジャンプインプットシステム</summary>
+    public void PlayerWallJump(InputAction.CallbackContext context)
+    {
+        m_isWallJump = context.ReadValueAsButton();
     }
 }
