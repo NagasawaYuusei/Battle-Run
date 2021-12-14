@@ -10,7 +10,7 @@ public class CursorManeger : MonoBehaviour
     /// false = カーソルを消し、中央に固定する。
     /// </summary>
     [SerializeField] bool m_cursor;
-    void Start()
+    void Update()
     {
         SetUp();
     }
@@ -26,6 +26,7 @@ public class CursorManeger : MonoBehaviour
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
+            print("a");
         }
     }
 }

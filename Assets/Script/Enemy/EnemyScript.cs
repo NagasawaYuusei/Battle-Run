@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyScript : MonoBehaviour
 {
     [SerializeField] int m_enemyHP;
-    int nowHP;
 
     public int EnemyHP
     {
@@ -19,10 +18,6 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        nowHP = m_enemyHP + 1;
-    }
     void Update()
     {
         HP();
@@ -31,11 +26,7 @@ public class EnemyScript : MonoBehaviour
 
     void HP()
     {
-        if(m_enemyHP < nowHP)
-        {
-            print(m_enemyHP);
-            nowHP--;
-        }
+        print(m_enemyHP);
     }
 
     void Death()
