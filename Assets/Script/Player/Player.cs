@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using DG.Tweening;
 
 public class Player : MonoBehaviour
 {
@@ -24,9 +25,10 @@ public class Player : MonoBehaviour
     [SerializeField] float m_groundDrag = 6f; //地面時の重力
     [SerializeField] float m_airDrag = 2f; //空中時の重力
 
-    //[Header("Input")]  
+    [Header("Input")]  
     bool m_isJump; //ジャンプ
     bool m_isDash; //ダッシュ
+    bool m_isDashButton;
     bool m_isDown;
     Vector3 m_moveDir; //移動
 
@@ -58,6 +60,7 @@ public class Player : MonoBehaviour
     {
         m_rb = GetComponent<Rigidbody>();
         m_rb.freezeRotation = true;
+        m_moveSpeed = m_walkSpeed;
     }
 
     /// <summary>アップデートごとの状態</summary>
@@ -104,15 +107,20 @@ public class Player : MonoBehaviour
 
         //スピードが10
 
-        if (m_isDash && IsGround())
-        {
-            m_moveSpeed = Mathf.Lerp(m_moveSpeed, m_springSpeed, m_acceleration * Time.deltaTime);
-        }
-        else if (!m_isDash)
-        {
-            m_moveSpeed = Mathf.Lerp(m_moveSpeed, m_walkSpeed, m_acceleration * Time.deltaTime);
-        }
 
+        if (m_isDashButton && IsGround() && !m_isDash)
+        {
+            DOTween.To(() => m_moveSpeed, x => m_moveSpeed = x, m_springSpeed, m_acceleration * Time.deltaTime).OnComplete(() => print(m_moveSpeed));
+                        //1.変化させる値  2.変化の過程          3.終点         4.毎フレーム変化させる値              
+            m_isDashButton = false;
+            m_isDash = true;
+        }
+        else if (m_isDashButton && IsGround() && m_isDash)
+        {
+            DOTween.To(() => m_moveSpeed, x => m_moveSpeed = x, m_walkSpeed, m_acceleration * Time.deltaTime).OnComplete(() => print(m_moveSpeed));
+            m_isDashButton = false;
+            m_isDash = false;
+        }
     }
 
     /// <summary>ジャンプ</summary>
@@ -124,7 +132,7 @@ public class Player : MonoBehaviour
             m_isJump = false;
         }
     }
-
+ 
     /// <summary>移動</summary>
     void Move()
     {
@@ -209,13 +217,24 @@ public class Player : MonoBehaviour
     /// <summary>ジャンプインプットシステム</summary>
     public void PlayerJump(InputAction.CallbackContext context)
     {
-        m_isJump = context.ReadValueAsButton();
+        if(context.started)
+        {
+            m_isJump = context.ReadValueAsButton();
+        }
     }
 
     /// <summary>ダッシュインプットシステム</summary>
     public void PlayerDash(InputAction.CallbackContext context)
     {
-        m_isDash = context.ReadValueAsButton();
+        if(context.started)
+        {
+            m_isDashButton = true;
+        }
+
+        if(context.canceled)
+        {
+            m_isDashButton = true;
+        }
     }
 
     public void PlayerDown(InputAction.CallbackContext context)
