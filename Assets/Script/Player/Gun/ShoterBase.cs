@@ -7,18 +7,25 @@ public class ShoterBase : MonoBehaviour
 {
     protected bool m_isFire;
     protected bool m_isSingleFire;
-    protected bool m_isFireSecond;
-    [SerializeField] bool m_singleType;
     [SerializeField] Transform m_cameraTransform;
     [SerializeField] float m_distance = 200f;
     [SerializeField] LayerMask m_enemyLayer;
     [SerializeField] protected int m_damage;
+    [SerializeField] protected float m_damagePerSecond;
     protected RaycastHit m_enemy;
     protected float m_time;
 
     public void PlayerFire(InputAction.CallbackContext context)
     {
-        m_isFire = context.ReadValueAsButton();
+        if(context.started)
+        {
+            m_isFire = true;
+        }
+
+        if(context.canceled)
+        {
+            m_isFire = false;
+        }
     }
 
     public void PlayerSingleFire(InputAction.CallbackContext context)
@@ -28,24 +35,23 @@ public class ShoterBase : MonoBehaviour
 
     public void PlayerFireSecond(InputAction.CallbackContext context)
     {
-        m_isFireSecond = context.ReadValueAsButton();
+        if(context.started)
+        {
+            FireSecondMethod(true);
+        }
+        
+        if(context.canceled)
+        {
+            FireSecondMethod(false);
+        }
     }
 
     protected void Fire()
     {
-        if(m_isFire && !m_singleType)
+        m_time += Time.deltaTime;
+        if (m_isFire)
         {
             FireMethod();
-        }
-
-        if(m_isFireSecond)
-        {
-            FireSecondMethod();
-        }
-
-        if(m_isSingleFire && m_singleType)
-        {
-            SingleFireMethod();
         }
     }
 
@@ -54,12 +60,7 @@ public class ShoterBase : MonoBehaviour
 
     }
 
-    protected virtual void FireSecondMethod()
-    {
-
-    }
-
-    protected virtual void SingleFireMethod()
+    protected virtual void FireSecondMethod(bool on)
     {
 
     }

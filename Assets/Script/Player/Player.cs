@@ -219,7 +219,7 @@ public class Player : MonoBehaviour
     {
         if(context.started)
         {
-            m_isJump = context.ReadValueAsButton();
+            m_isJump = true;
         }
     }
 
@@ -239,6 +239,6 @@ public class Player : MonoBehaviour
 
     public void PlayerDown(InputAction.CallbackContext context)
     {
-        m_isDown = context.ReadValueAsButton();
+        m_isDown = true;
     }
 }
