@@ -10,7 +10,9 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] Slider m_slider;
     [SerializeField] Canvas m_canvas;
     [SerializeField] GameObject m_damageText;
-    Vector3 m_damageVec; 
+    Tweener m_tweener;
+    int m_damage;
+    float m_time;
 
     public int EnemyHP
     {
@@ -30,6 +32,7 @@ public class EnemyScript : MonoBehaviour
     }
     void Update()
     {
+        State();
         Death();
         CameraRotate();
     }
@@ -39,25 +42,37 @@ public class EnemyScript : MonoBehaviour
         m_slider.maxValue = m_enemyMaxHP;
         m_enemyHP = m_enemyMaxHP;
         m_slider.value = m_enemyHP;
-        m_damageVec = m_damageText.GetComponent<RectTransform>().position;
-        m_damageText.SetActive(false);
     }
 
     public void HP(int value)
     {
-        DOTween.To(() => m_slider.value, x => m_slider.value = x, m_enemyHP-value, m_changeTime);
-        m_enemyHP -= value;
-
-        m_damageText.SetActive(true);
-        m_damageText.GetComponent<RectTransform>().position = m_damageVec;
-        Text dTexT = m_damageText.GetComponent<Text>();
-        dTexT.text = value.ToString();
-        Rigidbody dRb = m_damageText.GetComponent<Rigidbody>();
-        dRb.AddForce(Vector3.up, ForceMode.Impulse);
-        float a = 0;
-        //DOTween.To(() => dTexT.color.a, x => dTexT.color.a = x, a, 1f);
+        m_tweener?.Kill();
+        DOTween.To(() => m_slider.value, x => m_slider.value = x, m_enemyHP - value, m_changeTime).SetLink(gameObject);
         //HPˆê‹C‚É­‚È‚­‚È‚éver
         //m_slider.value = m_enemyHP;
+
+        if(m_time > 0.5f)
+        {
+            m_damage = value;
+        }
+        else
+        {
+            m_damage += value;
+        }
+        m_time = 0;
+
+        Text dTexT = m_damageText.GetComponent<Text>();
+        Color clear = new Color(255, 255, 255, 0);
+        dTexT.color = Color.white;
+        dTexT.text = m_damage.ToString();
+        m_tweener = DOTween.To(() => dTexT.color, x => dTexT.color = x, clear, 1f).SetLink(gameObject);
+
+        m_enemyHP -= value;
+    }
+
+    void State()
+    {
+        m_time += Time.deltaTime;
     }
 
     void Death()
