@@ -8,9 +8,12 @@ public class Player : MonoBehaviour
     float m_moveSpeed = 4f; //スピード
     float m_movementMultiplier = 10f; //通常乗数
     [SerializeField] float m_airMultiplier = 0.4f; //空中乗数
-    [SerializeField] float m_walkSpeed = 4f; //歩くスピード
-    [SerializeField] float m_springSpeed = 6f; //走るスピード
-    [SerializeField] float m_acceleration = 10f; //加速
+    [SerializeField] float m_maxMoveSpeed = 4f; //歩くスピード
+    //[SerializeField] float m_acceleration = 10f; //加速
+    [SerializeField, Tooltip("スライディングスピード")] float m_slidingSpeed;
+    [SerializeField, Tooltip("しゃがみスピード")] float m_downSpeed;
+    [SerializeField, Tooltip("しゃがみスピードにかける時間")] float m_downAccelerattionTime;
+    float m_springDownSpeed;
 
     [Header("Jump")]
     [SerializeField] float m_jumpPower = 5f; //ジャンプパワー
@@ -27,15 +30,18 @@ public class Player : MonoBehaviour
 
     [Header("Input")]  
     bool m_isJump; //ジャンプ
-    bool m_isDash; //ダッシュ
-    bool m_isDashButton;
-    bool m_isDown;
+    //bool m_isDash; //ダッシュ
+    //bool m_isDashButton;
     Vector3 m_moveDir; //移動
+    bool m_isDown;
+    bool m_isMove;
+    bool m_downAcceleration;
 
     //[Header("Ather")]
     Vector3 m_slopeMoveDir; //スロープ時の方向
     RaycastHit m_sloopeHit; //スロープの当たり判定
     Rigidbody m_rb; //Rigidbody
+    Tweener m_tweener;
 
     void Start()
     {
@@ -46,8 +52,8 @@ public class Player : MonoBehaviour
     {
         State();
         ControlDrag();
-        SpeedControl();
         Jump();
+        Down();
     }
 
     void FixedUpdate()
@@ -55,12 +61,12 @@ public class Player : MonoBehaviour
         Move();
     }
 
-    /// <summary>最初のセットアップ</summary>
+    /// <summary>最初のセットアップ</summary>  
     void FirstSetUp()
     {
         m_rb = GetComponent<Rigidbody>();
         m_rb.freezeRotation = true;
-        m_moveSpeed = m_walkSpeed;
+        m_moveSpeed = m_maxMoveSpeed;
     }
 
     /// <summary>アップデートごとの状態</summary>
@@ -87,42 +93,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    /// <summary>スピード操作</summary>
-    void SpeedControl()
-    {
-        //・地面
-        //ダッシュ
-        //歩行
-        //スライディング
-        //しゃがみ
-
-        //・空中
-        //しゃがみジャンプ
-        //通常ジャンプ
-        //スライディングジャンプ
-
-        //・坂
-        //スライディング
-        //しゃがみ
-
-        //スピードが10
-
-
-        if (m_isDashButton && IsGround() && !m_isDash)
-        {
-            DOTween.To(() => m_moveSpeed, x => m_moveSpeed = x, m_springSpeed, m_acceleration * Time.deltaTime).OnComplete(() => print(m_moveSpeed));
-                        //1.変化させる値  2.変化の過程          3.終点         4.毎フレーム変化させる値              
-            m_isDashButton = false;
-            m_isDash = true;
-        }
-        else if (m_isDashButton && IsGround() && m_isDash)
-        {
-            DOTween.To(() => m_moveSpeed, x => m_moveSpeed = x, m_walkSpeed, m_acceleration * Time.deltaTime).OnComplete(() => print(m_moveSpeed));
-            m_isDashButton = false;
-            m_isDash = false;
-        }
-    }
-
     /// <summary>ジャンプ</summary>
     void Jump()
     {
@@ -132,19 +102,43 @@ public class Player : MonoBehaviour
             m_isJump = false;
         }
     }
- 
+
+    void Down()
+    {
+        Vector3 dir = Camera.main.transform.TransformDirection(Vector3.forward);
+        if (m_isDown && IsGround())
+        {
+
+        }
+
+        if(m_downAcceleration && IsGround() && m_isMove)
+        {
+            m_springDownSpeed = m_maxMoveSpeed * 1.5f;
+            m_tweener = DOTween.To(() => m_springDownSpeed, x => m_downSpeed = x, m_springDownSpeed, m_downAccelerattionTime * Time.deltaTime);           
+            m_downAcceleration = false;
+        }
+        else
+        {
+            m_downAcceleration = false;
+        }
+    }
+
     /// <summary>移動</summary>
     void Move()
     {
         Vector3 dir = Camera.main.transform.TransformDirection(m_moveDir);
         dir.y = 0;
-        if (IsGround() && !OnSloope())
+        if (IsGround() && !OnSloope() && !m_isDown)
         {
             m_rb.AddForce((dir.normalized * m_moveSpeed * m_movementMultiplier) + m_rb.velocity.y * Vector3.up, ForceMode.Acceleration);
         }
-        else if (IsGround() && OnSloope())
+        else if (IsGround() && OnSloope() && !m_isDown)
         {
             m_rb.AddForce((dir.normalized * m_moveSpeed * m_movementMultiplier) + m_rb.velocity.y * Vector3.up, ForceMode.Acceleration);
+        }
+        else if (IsGround() && m_isDown)
+        {
+            m_rb.AddForce((dir.normalized * m_downSpeed * m_movementMultiplier) + m_rb.velocity.y * Vector3.up, ForceMode.Acceleration);
         }
         else if (!IsGround())
         {
@@ -177,8 +171,8 @@ public class Player : MonoBehaviour
     /// スロープ判定
     /// </summary>
     /// <returns>
-    /// スロープ設置 true
-    /// 地面         false
+    /// スロープ設置    true
+    /// 地面           false
     /// </returns>
     bool OnSloope()
     {
@@ -211,7 +205,15 @@ public class Player : MonoBehaviour
     /// <summary>移動インプットシステム</summary>
     public void PlayerMove(InputAction.CallbackContext context)
     {
+        if(context.started)
+        {
+            m_isMove = true;
+        }
         m_moveDir = context.ReadValue<Vector3>();
+        if(context.canceled)
+        {
+            m_isMove = false;
+        }
     }
 
     /// <summary>ジャンプインプットシステム</summary>
@@ -224,21 +226,30 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>ダッシュインプットシステム</summary>
-    public void PlayerDash(InputAction.CallbackContext context)
-    {
-        if(context.started)
-        {
-            m_isDashButton = true;
-        }
+    //public void PlayerDash(InputAction.CallbackContext context)
+    //{
+    //    if(context.started)
+    //    {
+    //        m_isDashButton = true;
+    //    }
 
-        if(context.canceled)
-        {
-            m_isDashButton = true;
-        }
-    }
+    //    if(context.canceled)
+    //    {
+    //        m_isDashButton = true;
+    //    }
+    //}
 
     public void PlayerDown(InputAction.CallbackContext context)
     {
-        m_isDown = true;
+        if (context.started)
+        {
+            m_isDown = true;
+            m_downAcceleration = true;
+        }
+
+        if (context.canceled)
+        {
+            m_isDown = false;
+        }
     }
 }

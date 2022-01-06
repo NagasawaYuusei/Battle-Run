@@ -5,7 +5,7 @@ using DG.Tweening;
 public class EnemyScript : MonoBehaviour
 {
     [SerializeField] int m_enemyMaxHP = 150;
-    [SerializeField] float m_changeTime = 0.3f;
+    //[SerializeField] float m_changeTime = 0.3f;
     int m_enemyHP;
     [SerializeField] Slider m_slider;
     [SerializeField] Canvas m_canvas;
@@ -47,9 +47,10 @@ public class EnemyScript : MonoBehaviour
     public void HP(int value)
     {
         m_tweener?.Kill();
-        DOTween.To(() => m_slider.value, x => m_slider.value = x, m_enemyHP - value, m_changeTime).SetLink(gameObject);
+        //HP‚¾‚ñ‚¾‚ñŒ¸‚éver
+        //DOTween.To(() => m_slider.value, x => m_slider.value = x, m_enemyHP - value, m_changeTime).SetLink(gameObject);
         //HPˆê‹C‚É­‚È‚­‚È‚éver
-        //m_slider.value = m_enemyHP;
+        m_slider.value = m_enemyHP;
 
         if(m_time > 0.5f)
         {

@@ -1,26 +1,33 @@
 using UnityEngine;
 using Cinemachine;
+using DG.Tweening;
 
 public class AKScript : ShoterBase
 {
     [Header("Camera")]
     [SerializeField] CinemachineVirtualCamera m_playerCamera;
     [SerializeField] CinemachineVirtualCamera m_akCamera;
+    [SerializeField] float m_shotTime;
     CinemachinePOV m_pPOV;
     CinemachinePOV m_aPOV;
-    CinemachinePOV m_nowPOV;
+    CinemachineVirtualCamera m_nowCinema;
 
     void Start()
     {
-        m_pPOV = m_playerCamera.GetCinemachineComponent<CinemachinePOV>();
-        m_aPOV = m_akCamera.GetCinemachineComponent<CinemachinePOV>();
-        m_nowPOV = m_pPOV;
+        Setup();
     }
 
     void Update()
     {
         State();
         Fire();
+    }
+
+    void Setup()
+    {
+        m_pPOV = m_playerCamera.GetCinemachineComponent<CinemachinePOV>();
+        m_aPOV = m_akCamera.GetCinemachineComponent<CinemachinePOV>();
+        m_nowCinema = m_playerCamera;
     }
 
     void State()
@@ -37,7 +44,6 @@ public class AKScript : ShoterBase
                 EnemyScript m_es = m_enemy.collider.GetComponent<EnemyScript>();
                 m_es.HP(m_damage);
             }
-            Recoil(m_nowPOV);
             m_coolDownTime = 0;
         }
     }
@@ -50,7 +56,7 @@ public class AKScript : ShoterBase
             m_aPOV.m_VerticalAxis.Value = m_pPOV.m_VerticalAxis.Value;
             m_akCamera.Priority = 10;
             m_playerCamera.Priority = 0;
-            m_nowPOV = m_aPOV;
+            m_nowCinema = m_akCamera;
         }
         else
         {
@@ -58,22 +64,9 @@ public class AKScript : ShoterBase
             m_pPOV.m_VerticalAxis.Value = m_aPOV.m_VerticalAxis.Value;
             m_playerCamera.Priority = 10;
             m_akCamera.Priority = 0;
-            m_nowPOV = m_pPOV;
+            m_nowCinema = m_playerCamera;
         }
     }
 
-    protected override void Recoil(CinemachinePOV pov)
-    {
-        if(m_atkNextTime > m_coolDownTime)
-        {
-            m_atkCount = 0;
-            m_atkNextTime = 0;
-        }
-        else
-        {
-            m_atkCount++;
-            m_atkNextTime = 0;
-        }
-        pov.m_VerticalAxis.Value -= (m_recoilValue + (m_recoilUpValue * m_atkCount)); 
-    }
+   
 }

@@ -5,19 +5,19 @@ using UnityEngine.InputSystem;
 public class PlayerWallRun : MonoBehaviour
 {
     [Header("UseScript")]
-    [SerializeField] Transform m_playerCamera; //プレイヤーカメラのトランスフォーム
+    [SerializeField, Tooltip("プレイヤーカメラのトランスフォーム")] Transform m_playerCamera;
 
     [Header("WallRunPlayerStates")]
-    [SerializeField] float m_wallRunGravity; //ウォールラン時の重力
-    [SerializeField] float m_wallRunJumpForce; //ウォールラン中のジャンプパワー
+    [SerializeField, Tooltip("ウォールラン時の重力")] float m_wallRunGravity;
+    [SerializeField, Tooltip("ウォールラン中のジャンプパワー")] float m_wallRunJumpForce;
 
     [Header("Camera")]
-    [SerializeField] CinemachineVirtualCamera m_cam; //cinemachine
-    [SerializeField] float m_fov; //通常時視野角
-    [SerializeField] float m_wallRunfovTime; //視野角変化までの偏移時間
-    [SerializeField] float m_camTilt; //ウォールラン時のカメラ角度
-    [SerializeField] float m_camTiltTime; //角度変化までの時間偏移
-    float m_tilt; //角度状態
+    [SerializeField, Tooltip("cinemachine")] CinemachineVirtualCamera m_cam;
+    [SerializeField, Tooltip("通常時視野角")] float m_fov;
+    [SerializeField, Tooltip("視野角変化までの偏移時間")] float m_wallRunfovTime;
+    [SerializeField, Tooltip("ウォールラン時のカメラ角度")] float m_camTilt;
+    [SerializeField, Tooltip("角度変化までの時間偏移")] float m_camTiltTime;
+    [Tooltip("角度状態")]float m_tilt;
 
     //[Header("IsWall")]
     bool m_wallLeft = false; //左の壁かどうか
@@ -92,7 +92,6 @@ public class PlayerWallRun : MonoBehaviour
     void StartWallRun()
     {
         m_rb.useGravity = false;
-        m_rb.AddForce(Vector3.down * m_wallRunGravity, ForceMode.Force);
         m_cam.m_Lens.FieldOfView = Mathf.Lerp(m_cam.m_Lens.FieldOfView, m_fov + 20, m_wallRunfovTime * Time.deltaTime);
 
         if(m_wallLeft)

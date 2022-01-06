@@ -9,21 +9,22 @@ public class ShoterBase : MonoBehaviour
     protected bool m_isFire; //Fire1
 
     [Header("Ray")]
-    [SerializeField] Transform m_cameraTransform; //カメラのトランスフォーム
-    [SerializeField] float m_distance = 200f; // 銃の範囲
-    [SerializeField] LayerMask m_enemyLayer; //敵のレイヤー
-    protected RaycastHit m_enemy; //当たった敵
+    [SerializeField, Tooltip("カメラのトランスフォーム")] Transform m_cameraTransform;
+    [SerializeField, Tooltip("銃の範囲")] float m_distance = 200f;
+    [SerializeField, Tooltip("敵のレイヤー")] LayerMask m_enemyLayer;
+    [Tooltip("当たった敵")] protected RaycastHit m_enemy;
 
     [Header("Damage")]
-    [SerializeField] protected int m_damage; //ダメージの値
-    [SerializeField] protected float m_damagePerSecond; //DPS
+    [SerializeField, Tooltip("ダメージの値")] protected int m_damage;
+    [SerializeField, Tooltip("DPS")] protected float m_damagePerSecond;
     
     [Header("Attack")]
-    [SerializeField] protected float m_coolDownTime; //アタックのクールタイム
-    protected int m_atkCount; //クールタイム外に撃った回数
-    protected float m_atkNextTime;
-    [SerializeField] protected float m_recoilValue; //リコイルの値
-    [SerializeField] protected float m_recoilUpValue; //リコイルの上昇値
+    [SerializeField, Tooltip("アタックのクールタイム")] protected float m_coolDownTime;
+    [SerializeField, Tooltip("")] protected float m_recoilCoolDownTime;
+    [Tooltip("クールタイム外に撃った回数")] protected int m_atkCount;
+    [Tooltip("当たった敵")] protected float m_atkNextTime;
+    [SerializeField, Tooltip("リコイルの値")] protected float m_recoilValue;
+    [SerializeField, Tooltip("リコイルの上昇値")] protected float m_recoilUpValue;
 
     /// <summary>マウスレフトインプットシステム</summary>
     public void PlayerFire(InputAction.CallbackContext context)
