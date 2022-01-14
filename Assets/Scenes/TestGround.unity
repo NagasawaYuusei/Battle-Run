@@ -1309,7 +1309,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 625824698}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.5, y: -4.37, z: 13.6}
+  m_LocalPosition: {x: -10.5, y: -4.14, z: 13.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1837176235}
@@ -1613,7 +1613,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17698
+  m_Name: pb_Mesh18712
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1777,7 +1777,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17774
+  m_Name: pb_Mesh18788
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2617,9 +2617,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_airMultiplier: 0.4
   m_maxMoveSpeed: 10
-  m_slidingSpeed: 10
   m_downSpeed: 5
-  m_downAccelerattionTime: 0
   m_jumpPower: 10
   m_zimen:
     serializedVersion: 2
@@ -2649,12 +2647,8 @@ MonoBehaviour:
   m_damage: 20
   m_damagePerSecond: 0.2
   m_coolDownTime: 1
-  m_recoilCoolDownTime: 0.5
-  m_recoilValue: 1
-  m_recoilUpValue: 0.15
   m_playerCamera: {fileID: 625824700}
   m_akCamera: {fileID: 879730626}
-  m_shotTime: 0
 --- !u!114 &1112319568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2668,12 +2662,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerCamera: {fileID: 1729945507}
-  m_wallRunGravity: 1
   m_wallRunJumpForce: 3
-  m_cam: {fileID: 625824700}
   m_fov: 90
   m_wallRunfovTime: 20
-  m_camTilt: 15
+  m_camTilt: 10
   m_camTiltTime: 20
   m_wallDistance: 1
   m_minimumJumpHeight: 1.5
@@ -3482,7 +3474,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17566
+  m_Name: pb_Mesh18580
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3718,7 +3710,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1729945504}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.5, y: -4.37, z: 13.6}
+  m_LocalPosition: {x: -10.5, y: -4.14, z: 13.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 514345352}
@@ -4004,7 +3996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 0.77, z: 0}
+  m_FollowOffset: {x: 0, y: 1, z: 0}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0

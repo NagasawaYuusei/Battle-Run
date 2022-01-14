@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using DG.Tweening;
+using Cinemachine;
 
 public class Player : MonoBehaviour
 {
@@ -9,11 +9,7 @@ public class Player : MonoBehaviour
     float m_movementMultiplier = 10f; //通常乗数
     [SerializeField] float m_airMultiplier = 0.4f; //空中乗数
     [SerializeField] float m_maxMoveSpeed = 4f; //歩くスピード
-    //[SerializeField] float m_acceleration = 10f; //加速
-    [SerializeField, Tooltip("スライディングスピード")] float m_slidingSpeed;
     [SerializeField, Tooltip("しゃがみスピード")] float m_downSpeed;
-    [SerializeField, Tooltip("しゃがみスピードにかける時間")] float m_downAccelerattionTime;
-    float m_springDownSpeed;
 
     [Header("Jump")]
     [SerializeField] float m_jumpPower = 5f; //ジャンプパワー
@@ -30,8 +26,6 @@ public class Player : MonoBehaviour
 
     [Header("Input")]  
     bool m_isJump; //ジャンプ
-    //bool m_isDash; //ダッシュ
-    //bool m_isDashButton;
     Vector3 m_moveDir; //移動
     bool m_isDown;
     bool m_isMove;
@@ -41,7 +35,6 @@ public class Player : MonoBehaviour
     Vector3 m_slopeMoveDir; //スロープ時の方向
     RaycastHit m_sloopeHit; //スロープの当たり判定
     Rigidbody m_rb; //Rigidbody
-    Tweener m_tweener;
 
     void Start()
     {
@@ -108,16 +101,21 @@ public class Player : MonoBehaviour
         Vector3 dir = Camera.main.transform.TransformDirection(Vector3.forward);
         if (m_isDown && IsGround())
         {
-
+            CinemachineTransposer CT = UseCamera.CVC.GetCinemachineComponent<CinemachineTransposer>();
+            CT.m_FollowOffset.y = -0.5f;
+            //これをますえふ
+        }
+        else
+        {
+            CinemachineTransposer CT = UseCamera.CVC.GetCinemachineComponent<CinemachineTransposer>();
+            CT.m_FollowOffset.y = 1;
         }
 
         if(m_downAcceleration && IsGround() && m_isMove)
-        {
-            m_springDownSpeed = m_maxMoveSpeed * 1.5f;
-            m_tweener = DOTween.To(() => m_springDownSpeed, x => m_downSpeed = x, m_springDownSpeed, m_downAccelerattionTime * Time.deltaTime);           
+        {    
             m_downAcceleration = false;
         }
-        else
+        else if(m_downAcceleration)
         {
             m_downAcceleration = false;
         }

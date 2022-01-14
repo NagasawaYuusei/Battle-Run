@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Cinemachine;
 using UnityEngine.InputSystem;
 
 public class PlayerWallRun : MonoBehaviour
@@ -8,11 +7,9 @@ public class PlayerWallRun : MonoBehaviour
     [SerializeField, Tooltip("プレイヤーカメラのトランスフォーム")] Transform m_playerCamera;
 
     [Header("WallRunPlayerStates")]
-    [SerializeField, Tooltip("ウォールラン時の重力")] float m_wallRunGravity;
     [SerializeField, Tooltip("ウォールラン中のジャンプパワー")] float m_wallRunJumpForce;
 
     [Header("Camera")]
-    [SerializeField, Tooltip("cinemachine")] CinemachineVirtualCamera m_cam;
     [SerializeField, Tooltip("通常時視野角")] float m_fov;
     [SerializeField, Tooltip("視野角変化までの偏移時間")] float m_wallRunfovTime;
     [SerializeField, Tooltip("ウォールラン時のカメラ角度")] float m_camTilt;
@@ -92,7 +89,7 @@ public class PlayerWallRun : MonoBehaviour
     void StartWallRun()
     {
         m_rb.useGravity = false;
-        m_cam.m_Lens.FieldOfView = Mathf.Lerp(m_cam.m_Lens.FieldOfView, m_fov + 20, m_wallRunfovTime * Time.deltaTime);
+        UseCamera.CVC.m_Lens.FieldOfView = Mathf.Lerp(UseCamera.CVC.m_Lens.FieldOfView, m_fov + 20, m_wallRunfovTime * Time.deltaTime);
 
         if(m_wallLeft)
         {
@@ -124,13 +121,13 @@ public class PlayerWallRun : MonoBehaviour
     void StopWallRun()
     {
         m_rb.useGravity = true;
-        m_cam.m_Lens.FieldOfView = Mathf.Lerp(m_cam.m_Lens.FieldOfView, m_fov , m_wallRunfovTime * Time.deltaTime);
+        UseCamera.CVC.m_Lens.FieldOfView = Mathf.Lerp(UseCamera.CVC.m_Lens.FieldOfView, m_fov , m_wallRunfovTime * Time.deltaTime);
         m_tilt = Mathf.Lerp(m_tilt, 0, m_camTiltTime * Time.deltaTime);
     }
 
     void Camera()
     {
-        m_cam.m_Lens.Dutch = m_tilt;
+        UseCamera.CVC.m_Lens.Dutch = m_tilt;
     }
 
     /// <summary>ジャンプインプットシステム</summary>

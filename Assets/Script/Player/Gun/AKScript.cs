@@ -1,16 +1,13 @@
 using UnityEngine;
 using Cinemachine;
-using DG.Tweening;
 
 public class AKScript : ShoterBase
 {
     [Header("Camera")]
     [SerializeField] CinemachineVirtualCamera m_playerCamera;
     [SerializeField] CinemachineVirtualCamera m_akCamera;
-    [SerializeField] float m_shotTime;
     CinemachinePOV m_pPOV;
     CinemachinePOV m_aPOV;
-    CinemachineVirtualCamera m_nowCinema;
 
     void Start()
     {
@@ -19,7 +16,6 @@ public class AKScript : ShoterBase
 
     void Update()
     {
-        State();
         Fire();
     }
 
@@ -27,12 +23,7 @@ public class AKScript : ShoterBase
     {
         m_pPOV = m_playerCamera.GetCinemachineComponent<CinemachinePOV>();
         m_aPOV = m_akCamera.GetCinemachineComponent<CinemachinePOV>();
-        m_nowCinema = m_playerCamera;
-    }
-
-    void State()
-    {
-        m_atkNextTime += Time.deltaTime;
+        UseCamera.CVC = m_playerCamera;
     }
 
     protected override void FireMethod()
@@ -56,7 +47,7 @@ public class AKScript : ShoterBase
             m_aPOV.m_VerticalAxis.Value = m_pPOV.m_VerticalAxis.Value;
             m_akCamera.Priority = 10;
             m_playerCamera.Priority = 0;
-            m_nowCinema = m_akCamera;
+            UseCamera.CVC = m_akCamera;
         }
         else
         {
@@ -64,7 +55,7 @@ public class AKScript : ShoterBase
             m_pPOV.m_VerticalAxis.Value = m_aPOV.m_VerticalAxis.Value;
             m_playerCamera.Priority = 10;
             m_akCamera.Priority = 0;
-            m_nowCinema = m_playerCamera;
+            UseCamera.CVC = m_playerCamera;
         }
     }
 

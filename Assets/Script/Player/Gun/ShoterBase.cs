@@ -6,7 +6,7 @@ using Cinemachine;
 public class ShoterBase : MonoBehaviour
 {
     [Header("Input")]
-    protected bool m_isFire; //Fire1
+    [Tooltip("撃つインプットシステム")]protected bool m_isFire; //Fire1
 
     [Header("Ray")]
     [SerializeField, Tooltip("カメラのトランスフォーム")] Transform m_cameraTransform;
@@ -20,11 +20,6 @@ public class ShoterBase : MonoBehaviour
     
     [Header("Attack")]
     [SerializeField, Tooltip("アタックのクールタイム")] protected float m_coolDownTime;
-    [SerializeField, Tooltip("")] protected float m_recoilCoolDownTime;
-    [Tooltip("クールタイム外に撃った回数")] protected int m_atkCount;
-    [Tooltip("当たった敵")] protected float m_atkNextTime;
-    [SerializeField, Tooltip("リコイルの値")] protected float m_recoilValue;
-    [SerializeField, Tooltip("リコイルの上昇値")] protected float m_recoilUpValue;
 
     /// <summary>マウスレフトインプットシステム</summary>
     public void PlayerFire(InputAction.CallbackContext context)
