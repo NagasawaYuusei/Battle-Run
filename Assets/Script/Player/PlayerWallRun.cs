@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using DG.Tweening;
 
 public class PlayerWallRun : MonoBehaviour
 {
@@ -10,11 +11,11 @@ public class PlayerWallRun : MonoBehaviour
     [SerializeField, Tooltip("ウォールラン中のジャンプパワー")] float m_wallRunJumpForce;
 
     [Header("Camera")]
-    [SerializeField, Tooltip("通常時視野角")] float m_fov;
+    float m_firstFOV;
     [SerializeField, Tooltip("視野角変化までの偏移時間")] float m_wallRunfovTime;
     [SerializeField, Tooltip("ウォールラン時のカメラ角度")] float m_camTilt;
     [SerializeField, Tooltip("角度変化までの時間偏移")] float m_camTiltTime;
-    [Tooltip("角度状態")]float m_tilt;
+    [Tooltip("角度状態")] float m_tilt;
 
     //[Header("IsWall")]
     bool m_wallLeft = false; //左の壁かどうか
@@ -30,13 +31,21 @@ public class PlayerWallRun : MonoBehaviour
 
     //[Header("Ather")]
     Rigidbody m_rb;
-
+    bool m_isWallRun;
 
     public float Tilt
     {
         get
         {
             return m_tilt;
+        }
+    }
+
+    public bool IsWallRun
+    {
+        get
+        {
+            return m_isWallRun;
         }
     }
 
@@ -48,6 +57,7 @@ public class PlayerWallRun : MonoBehaviour
     void Start()
     {
         m_rb = GetComponent<Rigidbody>();
+        m_firstFOV = UseCamera.CVC.m_Lens.FieldOfView;
     }
 
     void CheckWall()
@@ -89,26 +99,26 @@ public class PlayerWallRun : MonoBehaviour
     void StartWallRun()
     {
         m_rb.useGravity = false;
-        UseCamera.CVC.m_Lens.FieldOfView = Mathf.Lerp(UseCamera.CVC.m_Lens.FieldOfView, m_fov + 20, m_wallRunfovTime * Time.deltaTime);
+        UseCamera.CVC.m_Lens.FieldOfView = Mathf.Lerp(UseCamera.CVC.m_Lens.FieldOfView, m_firstFOV + 20, m_wallRunfovTime * Time.deltaTime);
 
-        if(m_wallLeft)
+        if (m_wallLeft)
         {
             m_tilt = Mathf.Lerp(m_tilt, -m_camTilt, m_camTiltTime * Time.deltaTime);
         }
-        else if(m_wallRight)
+        else if (m_wallRight)
         {
             m_tilt = Mathf.Lerp(m_tilt, m_camTilt, m_camTiltTime * Time.deltaTime);
         }
 
         if (m_isWallJump)
         {
-            if(m_wallLeft)
+            if (m_wallLeft)
             {
                 Vector3 wallRunJumpDirection = transform.up + m_leftWallHit.normal;
                 m_rb.velocity = new Vector3(m_rb.velocity.x, 0, m_rb.velocity.z);
                 m_rb.AddForce(wallRunJumpDirection * m_wallRunJumpForce * 100, ForceMode.Force);
             }
-            else if(m_wallRight)
+            else if (m_wallRight)
             {
                 Vector3 wallRunJumpDirection = transform.up + m_rightWallHit.normal;
                 m_rb.velocity = new Vector3(m_rb.velocity.x, 0, m_rb.velocity.z);
@@ -116,12 +126,17 @@ public class PlayerWallRun : MonoBehaviour
             }
             m_isWallJump = false;
         }
+        m_isWallRun = true;
     }
 
     void StopWallRun()
     {
+        if(m_isWallRun)
+        {
+            DOTween.To(() => UseCamera.CVC.m_Lens.FieldOfView, x => UseCamera.CVC.m_Lens.FieldOfView = x, m_firstFOV, m_wallRunfovTime * Time.deltaTime);
+            m_isWallRun = false;
+        }
         m_rb.useGravity = true;
-        UseCamera.CVC.m_Lens.FieldOfView = Mathf.Lerp(UseCamera.CVC.m_Lens.FieldOfView, m_fov , m_wallRunfovTime * Time.deltaTime);
         m_tilt = Mathf.Lerp(m_tilt, 0, m_camTiltTime * Time.deltaTime);
     }
 

@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] float m_airMultiplier = 0.4f; //空中乗数
     [SerializeField] float m_maxMoveSpeed = 4f; //歩くスピード
     [SerializeField, Tooltip("しゃがみスピード")] float m_downSpeed;
+    [SerializeField] float m_downAccelerationSpeed;
 
     [Header("Jump")]
     [SerializeField] float m_jumpPower = 5f; //ジャンプパワー
@@ -35,6 +36,7 @@ public class Player : MonoBehaviour
     Vector3 m_slopeMoveDir; //スロープ時の方向
     RaycastHit m_sloopeHit; //スロープの当たり判定
     Rigidbody m_rb; //Rigidbody
+    float m_downTime;
 
     void Start()
     {
@@ -98,21 +100,34 @@ public class Player : MonoBehaviour
 
     void Down()
     {
-        Vector3 dir = Camera.main.transform.TransformDirection(Vector3.forward);
+        Vector3 dir = Camera.main.transform.TransformDirection(m_moveDir);
+        dir.y = 0;
+        bool on = false;
         if (m_isDown && IsGround())
         {
             CinemachineTransposer CT = UseCamera.CVC.GetCinemachineComponent<CinemachineTransposer>();
-            CT.m_FollowOffset.y = -0.5f;
-            //これをますえふ
+            CT.m_FollowOffset.y = Mathf.Lerp(CT.m_FollowOffset.y, -0.5f, 20 * Time.deltaTime);
+            m_downTime -= Time.deltaTime;
+            on = true;
         }
         else
         {
             CinemachineTransposer CT = UseCamera.CVC.GetCinemachineComponent<CinemachineTransposer>();
-            CT.m_FollowOffset.y = 1;
+            CT.m_FollowOffset.y = Mathf.Lerp(CT.m_FollowOffset.y, 1, 20 * Time.deltaTime);
+            if(on)
+            {
+                m_downTime = 0;
+                on = false;
+            }
+            if(m_downTime < 2)
+            {
+                m_downTime += Time.deltaTime;
+            }
         }
 
-        if(m_downAcceleration && IsGround() && m_isMove)
-        {    
+        if(m_downAcceleration && IsGround() && m_isMove && m_downTime > 1)
+        {
+            m_rb.AddForce((dir.normalized * m_downAccelerationSpeed), ForceMode.Impulse);
             m_downAcceleration = false;
         }
         else if(m_downAcceleration)

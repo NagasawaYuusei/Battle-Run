@@ -1309,7 +1309,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 625824698}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.5, y: -4.14, z: 13.6}
+  m_LocalPosition: {x: -10.5, y: -4.1400003, z: 13.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1837176235}
@@ -1406,7 +1406,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 879730624}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.5, y: -4.37, z: 13.6}
+  m_LocalPosition: {x: -10.5, y: -4.14, z: 13.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 893842425}
@@ -1434,11 +1434,11 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 1112319561}
   m_Lens:
-    FieldOfView: 80
+    FieldOfView: 109.9999
     OrthographicSize: 5
     NearClipPlane: 0.001
     FarClipPlane: 100
-    Dutch: 0
+    Dutch: -9.999992
     LensShift: {x: 0, y: 0}
   m_Transitions:
     m_BlendHint: 0
@@ -1556,7 +1556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 0.77, z: 0}
+  m_FollowOffset: {x: 0, y: 1, z: 0}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0
@@ -1613,7 +1613,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18712
+  m_Name: pb_Mesh17700
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1777,7 +1777,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18788
+  m_Name: pb_Mesh17776
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2618,6 +2618,7 @@ MonoBehaviour:
   m_airMultiplier: 0.4
   m_maxMoveSpeed: 10
   m_downSpeed: 5
+  m_downAccelerationSpeed: 20
   m_jumpPower: 10
   m_zimen:
     serializedVersion: 2
@@ -2663,7 +2664,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_playerCamera: {fileID: 1729945507}
   m_wallRunJumpForce: 3
-  m_fov: 90
   m_wallRunfovTime: 20
   m_camTilt: 10
   m_camTiltTime: 20
@@ -3144,7 +3144,7 @@ GameObject:
   - component: {fileID: 1664411699}
   - component: {fileID: 1664411698}
   m_Layer: 9
-  m_Name: ' Floor'
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3474,7 +3474,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18580
+  m_Name: pb_Mesh17568
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3710,7 +3710,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1729945504}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.5, y: -4.14, z: 13.6}
+  m_LocalPosition: {x: -10.5, y: -4.1400003, z: 13.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 514345352}
@@ -3996,7 +3996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 1, z: 0}
+  m_FollowOffset: {x: 0, y: 0.9999996, z: 0}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0

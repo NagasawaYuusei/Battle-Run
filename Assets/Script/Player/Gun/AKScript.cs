@@ -41,7 +41,7 @@ public class AKScript : ShoterBase
 
     protected override void FireSecondMethod(bool on)
     {
-        if(on)
+        if(on && !GetComponent<PlayerWallRun>().IsWallRun)
         {
             m_aPOV.m_HorizontalAxis.Value = m_pPOV.m_HorizontalAxis.Value;
             m_aPOV.m_VerticalAxis.Value = m_pPOV.m_VerticalAxis.Value;

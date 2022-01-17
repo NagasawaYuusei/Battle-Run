@@ -20,6 +20,15 @@ public class ShoterBase : MonoBehaviour
     
     [Header("Attack")]
     [SerializeField, Tooltip("アタックのクールタイム")] protected float m_coolDownTime;
+    protected bool m_isFireSecond;
+
+    public bool IsFireSecond
+    {
+        get
+        {
+            return m_isFireSecond;
+        }
+    }
 
     /// <summary>マウスレフトインプットシステム</summary>
     public void PlayerFire(InputAction.CallbackContext context)
