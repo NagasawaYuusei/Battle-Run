@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     RaycastHit m_sloopeHit; //スロープの当たり判定
     Rigidbody m_rb; //Rigidbody
     float m_downTime;
+    [SerializeField] CinemachineVirtualCamera m_firstCamera;
 
     void Start()
     {
@@ -62,6 +63,7 @@ public class Player : MonoBehaviour
         m_rb = GetComponent<Rigidbody>();
         m_rb.freezeRotation = true;
         m_moveSpeed = m_maxMoveSpeed;
+        UseCamera.CVC = m_firstCamera;
     }
 
     /// <summary>アップデートごとの状態</summary>
