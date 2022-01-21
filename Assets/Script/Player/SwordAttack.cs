@@ -4,29 +4,60 @@ using UnityEngine.InputSystem;
 public class SwordAttack : MonoBehaviour
 {
     [Tooltip("アタックインプットシステム")] bool m_isAttack;
-    [Tooltip("前回のアタックから経過している時間")] float m_isAttackTime;
-    [Tooltip("アタックのインターバル"), SerializeField] float m_isAttackInterval;
+    [Tooltip("前回のアタックから経過している時間")] float m_attackTime;
+    [Tooltip("アタックのインターバル"), SerializeField] float m_attackInterval;
+    [Tooltip("当たった敵")]RaycastHit m_inEnemyRay;
+    [Tooltip("アタックの距離"), SerializeField] float m_attackLength;
 
     void Update()
     {
         State();
+        Damage();
+        IsAttack();
     }
 
     /// <summary>状態</summary>
     void State()
     {
-        m_isAttackTime += Time.deltaTime;
+        m_attackTime += Time.deltaTime;
     }
 
-    /// <summary>コライダー接触中のアップデート</summary>
-    void OnTriggerStay(Collider other)
+    /// <summary>アタックする関数</summary>
+    void Damage()
     {
-        if(m_isAttack && m_isAttackTime >= m_isAttackInterval)
+        if (m_isAttack && m_attackTime >= m_attackInterval)
         {
-            m_isAttackTime = 0;
-            //nullチェック
-            other.GetComponent<EnemyScript>()!.EnemyDamage = true;
+            if (IsAttack())
+            {
+                m_inEnemyRay.collider.GetComponent<EnemyScript>().EnemyDamage = true;
+            }
+            m_attackTime = 0;
         }
+        m_isAttack = false;
+    }
+
+    /// <summary>
+    /// アタック判定
+    /// </summary>
+    /// <returns>
+    /// 敵がいる true 
+    /// 敵がいない false
+    /// </returns>
+    public bool IsAttack()
+    {
+        if (Physics.Raycast(transform.position, transform.forward, out m_inEnemyRay, m_attackLength))
+        {
+            Debug.DrawRay(transform.position, transform.forward, Color.red, m_attackLength);
+            if (m_inEnemyRay.collider.GetComponent<EnemyScript>())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return false;
     }
 
     /// <summary>アタックインプットシステム</summary>

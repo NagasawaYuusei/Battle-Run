@@ -1,9 +1,12 @@
+using UnityEngine;
 using Cinemachine;
 
 public class UseCamera
 {
-    static CinemachineVirtualCamera m_cvc;
+    [Tooltip("CinemachineVirtualCamera")]static CinemachineVirtualCamera m_cvc;
 
+    //カプセル化
+    /// <summary>現在使用しているCinemachineVirtualCamera</summary>
     public static CinemachineVirtualCamera CVC
     {
         get
