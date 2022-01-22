@@ -5,39 +5,38 @@ using Cinemachine;
 public class Player : MonoBehaviour
 {
     [Header("Speed")]
-    float m_moveSpeed = 4f; //スピード
-    float m_movementMultiplier = 10f; //通常乗数
-    [SerializeField] float m_airMultiplier = 0.4f; //空中乗数
-    [SerializeField] float m_maxMoveSpeed = 4f; //歩くスピード
-    [SerializeField, Tooltip("しゃがみスピード")] float m_downSpeed;
-    [SerializeField] float m_downAccelerationSpeed;
+    [Tooltip("スピード")] float m_moveSpeed = 4f;
+    [Tooltip("通常乗数")] float m_movementMultiplier = 10f;
+    [SerializeField, Tooltip("空中乗数")] float m_airMultiplier = 0.4f;
+    [SerializeField, Tooltip("最大スピード")] float m_maxMoveSpeed = 4f;
+    [Tooltip("しゃがみスピード")] float m_downSpeed;
+    [SerializeField, Tooltip("しゃがみ最小スピード")] float m_downMinSpeed;
+    [SerializeField, Tooltip("スライディング最大スピード")] float m_downAccelerationMaxSpeed;
+    [SerializeField, Tooltip("スライディングのスピード")] float m_slidingTime;
 
     [Header("Jump")]
-    [SerializeField] float m_jumpPower = 5f; //ジャンプパワー
-    [SerializeField] LayerMask m_zimen; //地面レイヤー
-    [SerializeField] bool m_isGizmo = true; //Gizmo表示
-    Vector3 m_centor; //設置判定の中点
-    Vector3 m_size; //設置判定のサイズ
-    [SerializeField] Vector3 m_collisionPoint; //中点差分
-    [SerializeField] Vector3 m_collisionSize; //サイズ差分
+    [SerializeField, Tooltip("ジャンプパワー")] float m_jumpPower = 5f;
+    [SerializeField, Tooltip("地面レイヤー")] LayerMask m_zimen;
+    [SerializeField, Tooltip("Gizmo表示")] bool m_isGizmo = true;
+    [Tooltip("設置判定の中点")] Vector3 m_centor;
+    [Tooltip("設置判定のサイズ")] Vector3 m_size;
+    [SerializeField, Tooltip("中点差分")] Vector3 m_collisionPoint;
+    [SerializeField, Tooltip("サイズ差分")] Vector3 m_collisionSize;
 
     [Header("Drag")]
-    [SerializeField] float m_groundDrag = 6f; //地面時の重力
-    [SerializeField] float m_airDrag = 2f; //空中時の重力
+    [SerializeField, Tooltip("地面時の重力")] float m_groundDrag = 6f;
+    [SerializeField, Tooltip("空中時の重力")] float m_airDrag = 2f;
 
-    [Header("Input")]  
-    bool m_isJump; //ジャンプ
-    Vector3 m_moveDir; //移動
-    bool m_isDown;
-    bool m_isMove;
-    bool m_downAcceleration;
+    [Header("Input")]
+    [Tooltip("インプットシステムジャンプ")] bool m_isJump;
+    [Tooltip("インプットシステム移動")] Vector3 m_moveDir;
+    [Tooltip("インプットシステムしゃがみ")] bool m_isDown;
 
-    //[Header("Ather")]
-    Vector3 m_slopeMoveDir; //スロープ時の方向
-    RaycastHit m_sloopeHit; //スロープの当たり判定
-    Rigidbody m_rb; //Rigidbody
-    float m_downTime;
-    [SerializeField] CinemachineVirtualCamera m_firstCamera;
+    [Header("Ather")]
+    [Tooltip("スロープ時の方向")] Vector3 m_slopeMoveDir;
+    [Tooltip("スロープの当たり判定")] RaycastHit m_sloopeHit;
+    [Tooltip("Rigidbody")] Rigidbody m_rb;
+    [SerializeField, Tooltip("最初のシネマシン")] CinemachineVirtualCamera m_firstCamera;
 
     void Start()
     {
@@ -100,41 +99,22 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>しゃがみ</summary>
     void Down()
     {
         Vector3 dir = Camera.main.transform.TransformDirection(m_moveDir);
         dir.y = 0;
-        bool on = false;
         if (m_isDown && IsGround())
         {
             CinemachineTransposer CT = UseCamera.CVC.GetCinemachineComponent<CinemachineTransposer>();
             CT.m_FollowOffset.y = Mathf.Lerp(CT.m_FollowOffset.y, -0.5f, 20 * Time.deltaTime);
-            m_downTime -= Time.deltaTime;
-            on = true;
+            m_downSpeed = Mathf.Lerp(m_downSpeed, m_downMinSpeed, m_slidingTime * Time.deltaTime);
         }
         else
         {
             CinemachineTransposer CT = UseCamera.CVC.GetCinemachineComponent<CinemachineTransposer>();
             CT.m_FollowOffset.y = Mathf.Lerp(CT.m_FollowOffset.y, 1, 20 * Time.deltaTime);
-            if(on)
-            {
-                m_downTime = 0;
-                on = false;
-            }
-            if(m_downTime < 2)
-            {
-                m_downTime += Time.deltaTime;
-            }
-        }
-
-        if(m_downAcceleration && IsGround() && m_isMove && m_downTime > 1)
-        {
-            m_rb.AddForce((dir.normalized * m_downAccelerationSpeed), ForceMode.Impulse);
-            m_downAcceleration = false;
-        }
-        else if(m_downAcceleration)
-        {
-            m_downAcceleration = false;
+            m_downSpeed = Mathf.Lerp(m_downSpeed, m_downAccelerationMaxSpeed, m_slidingTime * Time.deltaTime);
         }
     }
 
@@ -159,6 +139,7 @@ public class Player : MonoBehaviour
         {
             m_rb.AddForce((dir.normalized * m_moveSpeed * m_movementMultiplier * m_airMultiplier) + (m_rb.velocity.y * Vector3.up), ForceMode.Acceleration);
         }
+        print(dir);
     }
 
     /// <summary>
@@ -205,6 +186,21 @@ public class Player : MonoBehaviour
         return false;
     }
 
+    //bool OnDownHill()
+    //{
+
+    //    if (OnSloope() && m_slopeMoveDir)
+    //    {
+    //        return true;
+    //    }
+    //    else
+    //    {
+    //        return false;
+    //    }
+
+    //    return false;
+    //}
+
     /// <summary>
     /// 設置判定のGizmo表示
     /// </summary>
@@ -220,21 +216,13 @@ public class Player : MonoBehaviour
     /// <summary>移動インプットシステム</summary>
     public void PlayerMove(InputAction.CallbackContext context)
     {
-        if(context.started)
-        {
-            m_isMove = true;
-        }
         m_moveDir = context.ReadValue<Vector3>();
-        if(context.canceled)
-        {
-            m_isMove = false;
-        }
     }
 
     /// <summary>ジャンプインプットシステム</summary>
     public void PlayerJump(InputAction.CallbackContext context)
     {
-        if(context.started)
+        if (context.started)
         {
             m_isJump = true;
         }
@@ -254,12 +242,12 @@ public class Player : MonoBehaviour
     //    }
     //}
 
+    /// <summary>しゃがみインプットシステム</summary>
     public void PlayerDown(InputAction.CallbackContext context)
     {
         if (context.started)
         {
             m_isDown = true;
-            m_downAcceleration = true;
         }
 
         if (context.canceled)

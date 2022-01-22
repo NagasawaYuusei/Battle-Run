@@ -31,14 +31,13 @@ public class PlayerWallRun : MonoBehaviour
     //[Header("Ather")]
     [Tooltip("Rigidbody")]Rigidbody m_rb;
 
-    public float Tilt
-    {
-        get
-        {
-            return m_tilt;
-        }
-    }
-
+    /// <summary>
+    /// WallRunできるかどうか
+    /// </summary>
+    /// <returns>
+    /// 可能 true
+    /// 不可能 false
+    /// </returns>
     bool CanWallRun()
     {
         return !Physics.Raycast(transform.position, Vector3.down, m_minimumJumpHeight);
@@ -46,10 +45,17 @@ public class PlayerWallRun : MonoBehaviour
 
     void Start()
     {
+        Setup();
+    }
+
+    /// <summary>最初のセットアップ</summary>
+    void Setup()
+    {
         m_rb = GetComponent<Rigidbody>();
         m_firstFOV = UseCamera.CVC.m_Lens.FieldOfView;
     }
 
+    /// <summary>どっち方向の壁か　どの壁か</summary>
     void CheckWall()
     {
         m_wallLeft = Physics.Raycast(transform.position, -m_playerCamera.right, out m_leftWallHit, m_wallDistance, m_wall);
@@ -63,6 +69,7 @@ public class PlayerWallRun : MonoBehaviour
         Camera();
     }
 
+    /// <summary>WallRunの準備フェイズ</summary>
     void WallRunReady()
     {
         if (CanWallRun())
@@ -86,6 +93,7 @@ public class PlayerWallRun : MonoBehaviour
         }
     }
 
+    /// <summary>WallRun処理</summary>
     void StartWallRun()
     {
         m_rb.useGravity = false;
@@ -118,6 +126,7 @@ public class PlayerWallRun : MonoBehaviour
         }
     }
 
+    /// <summary>NotWallRun処理</summary>
     void StopWallRun()
     {
         UseCamera.CVC.m_Lens.FieldOfView = Mathf.Lerp(UseCamera.CVC.m_Lens.FieldOfView, m_firstFOV, m_wallRunfovTime * Time.deltaTime);
@@ -125,12 +134,13 @@ public class PlayerWallRun : MonoBehaviour
         m_tilt = Mathf.Lerp(m_tilt, 0, m_camTiltTime * Time.deltaTime);
     }
 
+    /// <summary>Cameraの角度</summary>
     void Camera()
     {
         UseCamera.CVC.m_Lens.Dutch = m_tilt;
     }
 
-    /// <summary>ジャンプインプットシステム</summary>
+    /// <summary>WallRunジャンプインプットシステム</summary>
     public void PlayerWallJump(InputAction.CallbackContext context)
     {
         m_isWallJump = context.ReadValueAsButton();
