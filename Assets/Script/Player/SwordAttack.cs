@@ -13,7 +13,6 @@ public class SwordAttack : MonoBehaviour
     {
         State();
         Damage();
-        IsAttack();
     }
 
     /// <summary>èÛë‘</summary>
@@ -47,7 +46,6 @@ public class SwordAttack : MonoBehaviour
     {
         if (Physics.Raycast(transform.position, transform.forward, out m_inEnemyRay, m_attackLength))
         {
-            Debug.DrawRay(transform.position, transform.forward, Color.red, m_attackLength);
             if (m_inEnemyRay.collider.GetComponent<EnemyScript>())
             {
                 return true;

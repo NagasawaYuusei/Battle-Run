@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using DG.Tweening;
 
 public class PlayerWallRun : MonoBehaviour
 {
@@ -11,41 +10,32 @@ public class PlayerWallRun : MonoBehaviour
     [SerializeField, Tooltip("ウォールラン中のジャンプパワー")] float m_wallRunJumpForce;
 
     [Header("Camera")]
-    float m_firstFOV;
+    [Tooltip("FOV初期値")] float m_firstFOV;
     [SerializeField, Tooltip("視野角変化までの偏移時間")] float m_wallRunfovTime;
     [SerializeField, Tooltip("ウォールラン時のカメラ角度")] float m_camTilt;
     [SerializeField, Tooltip("角度変化までの時間偏移")] float m_camTiltTime;
     [Tooltip("角度状態")] float m_tilt;
 
-    //[Header("IsWall")]
-    bool m_wallLeft = false; //左の壁かどうか
-    bool m_wallRight = false; //右の壁かどうか
-    RaycastHit m_leftWallHit; //あたった左の壁
-    RaycastHit m_rightWallHit; //あたった右の壁
-    [SerializeField] float m_wallDistance = 0.5f; //判定距離
-    [SerializeField] float m_minimumJumpHeight = 1.5f; //ジャンプした際の判定距離
-    [SerializeField] LayerMask m_wall; //ランウォールのレイヤー
+    [Header("IsWall")]
+    [Tooltip("左の壁か")]bool m_wallLeft = false;
+    [Tooltip("右の壁か")]bool m_wallRight = false;
+    [Tooltip("当たった左の壁")]RaycastHit m_leftWallHit;
+    [Tooltip("当たった右の壁")]RaycastHit m_rightWallHit;
+    [SerializeField, Tooltip("判定距離")] float m_wallDistance = 0.5f;
+    [SerializeField, Tooltip("ジャンプした際の判定距離")] float m_minimumJumpHeight = 1.5f;
+    [SerializeField, Tooltip("ランウォールのレイヤー")] LayerMask m_wall;
 
     //[Header("Input")]
-    bool m_isWallJump;
+    [Tooltip("ウォールジャンプインプットシステム")]bool m_isWallJump;
 
     //[Header("Ather")]
-    Rigidbody m_rb;
-    bool m_isWallRun;
+    [Tooltip("Rigidbody")]Rigidbody m_rb;
 
     public float Tilt
     {
         get
         {
             return m_tilt;
-        }
-    }
-
-    public bool IsWallRun
-    {
-        get
-        {
-            return m_isWallRun;
         }
     }
 
@@ -126,16 +116,11 @@ public class PlayerWallRun : MonoBehaviour
             }
             m_isWallJump = false;
         }
-        m_isWallRun = true;
     }
 
     void StopWallRun()
     {
-        if(m_isWallRun)
-        {
-            DOTween.To(() => UseCamera.CVC.m_Lens.FieldOfView, x => UseCamera.CVC.m_Lens.FieldOfView = x, m_firstFOV, m_wallRunfovTime * Time.deltaTime);
-            m_isWallRun = false;
-        }
+        UseCamera.CVC.m_Lens.FieldOfView = Mathf.Lerp(UseCamera.CVC.m_Lens.FieldOfView, m_firstFOV, m_wallRunfovTime * Time.deltaTime);
         m_rb.useGravity = true;
         m_tilt = Mathf.Lerp(m_tilt, 0, m_camTiltTime * Time.deltaTime);
     }
