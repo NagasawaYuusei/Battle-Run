@@ -64,8 +64,10 @@
     <Compile Include="Assets\Script\Player\Player.cs" />
     <Compile Include="Assets\Script\Player\GrapllingHook.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyScript.cs" />
-    <Compile Include="Assets\Script\UI.cs" />
+    <Compile Include="Assets\Script\Game\UI.cs" />
     <Compile Include="Assets\Script\Player\BlastBomb.cs" />
+    <Compile Include="Assets\Script\Game\SingletonMonoBehaviour.cs" />
+    <Compile Include="Assets\Script\Game\GameManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
