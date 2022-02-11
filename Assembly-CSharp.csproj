@@ -57,6 +57,7 @@
     <Compile Include="Assets\Script\Player\SwordAttack.cs" />
     <Compile Include="Assets\Input\RebindingInput.cs" />
     <Compile Include="Assets\Script\Game\GameManager.cs" />
+    <Compile Include="Assets\Script\Player\GrapScript.cs" />
     <Compile Include="Assets\Script\Player\PlayerWallRun.cs" />
     <Compile Include="Assets\Script\Player\UseCamera.cs" />
     <Compile Include="Assets\Input\InputButtonScript.cs" />
@@ -65,7 +66,6 @@
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModulePhysics2D.cs" />
     <Compile Include="Assets\Script\Player\Player.cs" />
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModulePhysics.cs" />
-    <Compile Include="Assets\Script\Player\GrapllingHook.cs" />
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleEPOOutline.cs" />
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleSprite.cs" />
@@ -74,7 +74,6 @@
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleUI.cs" />
     <Compile Include="Assets\Script\Game\UI.cs" />
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleAudio.cs" />
-    <Compile Include="Assets\Script\Player\BlastBomb.cs" />
     <Compile Include="Assets\Script\Game\SingletonMonoBehaviour.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -305,11 +304,11 @@
     <Reference Include="UnityEditor.UnityConnectModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.24f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="DOTween">
       <HintPath>Assets\Assets\Plugins\Demigiant\DOTween\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.24f1\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>

@@ -38,6 +38,11 @@ public class Player : MonoBehaviour
     [Tooltip("Rigidbody")] Rigidbody m_rb;
     [SerializeField, Tooltip("最初のシネマシン")] CinemachineVirtualCamera m_firstCamera;
 
+    void Awake()
+    {
+        AwakeSetUp();
+    }
+
     void Start()
     {
         FirstSetUp();
@@ -56,13 +61,18 @@ public class Player : MonoBehaviour
         Move();
     }
 
+    /// <summary>一番最初のセットアップ</summary>
+    void AwakeSetUp()
+    {
+        UseCamera.CVC = m_firstCamera;
+    }
+
     /// <summary>最初のセットアップ</summary>  
     void FirstSetUp()
     {
         m_rb = GetComponent<Rigidbody>();
         m_rb.freezeRotation = true;
         m_moveSpeed = m_maxMoveSpeed;
-        UseCamera.CVC = m_firstCamera;
     }
 
     /// <summary>アップデートごとの状態</summary>
@@ -139,7 +149,6 @@ public class Player : MonoBehaviour
         {
             m_rb.AddForce((dir.normalized * m_moveSpeed * m_movementMultiplier * m_airMultiplier) + (m_rb.velocity.y * Vector3.up), ForceMode.Acceleration);
         }
-        print(dir);
     }
 
     /// <summary>

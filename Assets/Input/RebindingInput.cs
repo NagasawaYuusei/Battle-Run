@@ -4,27 +4,16 @@ using UnityEngine.UI;
 
 public class RebindingInput : MonoBehaviour
 {
-    //PlayerInputコンポーネントがあるゲームオブジェクト
-    [SerializeField]
-    private PlayerInput _pInput;
+    [Tooltip("PlayerInputコンポーネントがあるゲームオブジェクト"), SerializeField] PlayerInput _pInput;
 
-    //リバインディング中のメッセージ表示テキスト。アクティブ状態の可否に使用。
-    [SerializeField]
-    private GameObject _rebindingMessage;
-    //リバインディングを開始するボタン。アクティブ状態の可否に使用。
-    [SerializeField]
-    private GameObject _rebindingButton;
-    //リバインディング開始ボタンのテキスト。キー名を表示。
-    [SerializeField]
-    private Text _bindingName;
+    [Tooltip("リバインディング中のメッセージ表示テキスト。アクティブ状態の可否に使用。"), SerializeField] GameObject _rebindingMessage;
+    [Tooltip("リバインディングを開始するボタン。アクティブ状態の可否に使用。"), SerializeField] GameObject _rebindingButton;
+    [Tooltip("リバインディング開始ボタンのテキスト。キー名を表示。"), SerializeField] Text _bindingName;
 
-    //リバインディングしたいInputAction項目。今回はMap:PlayerのAction:Fireを使用しています。
-    [SerializeField]
-    private InputActionReference _action;
-    //リバインディングしたいコントロールのインデックス
-    private string rebindingIndex;
+    [Tooltip("リバインディングしたいInputAction項目。今回はMap:PlayerのAction:Fireを使用しています。"), SerializeField] InputActionReference _action;
+    [Tooltip("リバインディングしたいコントロールのインデックス")]string rebindingIndex;
 
-    private InputActionRebindingExtensions.RebindingOperation _rebindingOperation;
+    InputActionRebindingExtensions.RebindingOperation _rebindingOperation;
     public void Start()
     {
         //アクション(Fire)ボタンを押下するとデバッグにFireと表示
@@ -48,7 +37,7 @@ public class RebindingInput : MonoBehaviour
 
     }
 
-    public void StartRebinding()
+    public void StartRebinding(string str)
     {
         //ボタンを消し、代わりにリバインディング中のメッセージを表示
         _rebindingButton.SetActive(false);
@@ -61,7 +50,7 @@ public class RebindingInput : MonoBehaviour
         //Fireボタンのリバインディング開始
         _rebindingOperation = _action.action.PerformInteractiveRebinding()
             .WithTargetBinding(_action.action.GetBindingIndexForControl(_action.action.controls[0]))
-            .WithControlsExcluding("Mouse")
+            .WithControlsExcluding(str)
             .OnMatchWaitForAnother(0.1f)
             .OnComplete(operation => RebindComplete())
             .Start();

@@ -571,6 +571,7 @@ Transform:
   - {fileID: 1129889054}
   - {fileID: 1112319561}
   - {fileID: 588526855}
+  - {fileID: 1593579258}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -636,7 +637,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1093043322}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 9.93, y: 6.36, z: 0}
 --- !u!65 &291690888
 BoxCollider:
@@ -1026,7 +1027,19 @@ MonoBehaviour:
     m_ActionId: 49767c34-025c-41ef-85bf-148d00a18d38
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1572895110}
+        m_TargetAssemblyTypeName: GrapScript, Assembly-CSharp
+        m_MethodName: PlayerGrap
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 8c6201db-ecf4-4a83-8b0b-8d9984793b55
     m_ActionName: Player/FireSecond[/Mouse/rightButton]
   - m_PersistentCalls:
@@ -1086,7 +1099,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-42852
+  m_Name: pb_Mesh17714
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1423,11 +1436,11 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 1112319561}
   m_Lens:
-    FieldOfView: 110
+    FieldOfView: 90
     OrthographicSize: 5
     NearClipPlane: 0.001
     FarClipPlane: 100
-    Dutch: 4.138e-41
+    Dutch: 0
     LensShift: {x: 0, y: 0}
   m_Transitions:
     m_BlendHint: 0
@@ -1771,7 +1784,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1093043322}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 9.93, y: 6.36, z: 0}
 --- !u!43 &1045473533
 Mesh:
@@ -1779,7 +1792,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17734
+  m_Name: pb_Mesh17818
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1969,8 +1982,8 @@ Transform:
   m_LocalPosition: {x: -1.46, y: -0.67, z: 1.49}
   m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_Children:
-  - {fileID: 291690887}
   - {fileID: 932830236}
+  - {fileID: 291690887}
   m_Father: {fileID: 1572895108}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 9.93, y: 6.36, z: 0}
@@ -1983,17 +1996,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1093043321}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 933a4a8e903f5d742a290276b44d34de, type: 3}
+  m_Script: {fileID: 11500000, guid: 263fa57049ff5eb4cafce508b7fa6236, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_whatIsGrappleable:
-    serializedVersion: 2
-    m_Bits: 4864
-  m_hookTip: {fileID: 932830236}
-  m_camera: {fileID: 1729945507}
-  m_player: {fileID: 1112319561}
-  m_maxDistance: 10000
-  m_grappleSpeed: 100
+  m_gs: {fileID: 1572895110}
 --- !u!120 &1093043324
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -2034,7 +2040,9 @@ LineRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Positions: []
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.08
@@ -2943,14 +2951,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1572895108}
-  - component: {fileID: 1572895109}
+  - component: {fileID: 1572895110}
   m_Layer: 0
   m_Name: HookPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1572895108
 Transform:
   m_ObjectHideFlags: 0
@@ -2966,7 +2974,7 @@ Transform:
   m_Father: {fileID: 1729945507}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1572895109
+--- !u!114 &1572895110
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2975,10 +2983,114 @@ MonoBehaviour:
   m_GameObject: {fileID: 1572895107}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 263fa57049ff5eb4cafce508b7fa6236, type: 3}
+  m_Script: {fileID: 11500000, guid: 09735ce0ec985444187a46974287cf08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_graplling: {fileID: 0}
+  m_grapRange: 200
+  m_onRay: 0
+  m_pointLayerValue: 15
+  m_playerRb: {fileID: 1112319565}
+  m_pointNearRange: 5
+  m_grapPower: 0.5
+  m_yPower: 2.5
+  m_lr: {fileID: 1093043324}
+  m_gunTransform: {fileID: 932830236}
+--- !u!1 &1593579257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1593579258}
+  - component: {fileID: 1593579261}
+  - component: {fileID: 1593579260}
+  - component: {fileID: 1593579259}
+  m_Layer: 15
+  m_Name: Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1593579258
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593579257}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5, y: 0, z: -2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 184528488}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1593579259
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593579257}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1593579260
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593579257}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1593579261
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593579257}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1664411696
 GameObject:
   m_ObjectHideFlags: 0
@@ -3323,7 +3435,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17564
+  m_Name: pb_Mesh17624
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3533,13 +3645,13 @@ Camera:
     height: 1
   near clip plane: 0.001
   far clip plane: 100
-  field of view: 110
+  field of view: 90
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 24375
+    m_Bits: 57143
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -3643,7 +3755,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17672
+  m_Name: pb_Mesh17746
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3950,8 +4062,8 @@ MonoBehaviour:
   m_RecenterTarget: 0
   m_VerticalAxis:
     Value: 0
-    m_SpeedMode: 0
-    m_MaxSpeed: 500
+    m_SpeedMode: 1
+    m_MaxSpeed: 2
     m_AccelTime: 0
     m_DecelTime: 0
     m_InputAxisName: Mouse Y
@@ -3974,8 +4086,8 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_HorizontalAxis:
     Value: 0
-    m_SpeedMode: 0
-    m_MaxSpeed: 500
+    m_SpeedMode: 1
+    m_MaxSpeed: 2
     m_AccelTime: 0
     m_DecelTime: 0
     m_InputAxisName: Mouse X
