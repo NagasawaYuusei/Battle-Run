@@ -8,6 +8,9 @@ public class SwordAttack : MonoBehaviour
     [Tooltip("アタックのインターバル"), SerializeField] float m_attackInterval;
     [Tooltip("当たった敵")]RaycastHit m_inEnemyRay;
     [Tooltip("アタックの距離"), SerializeField] float m_attackLength;
+    [SerializeField] AudioClip m_swordSE;
+    [SerializeField] AudioSource m_as;
+    [SerializeField] Animator m_anim;
 
     void Update()
     {
@@ -26,13 +29,20 @@ public class SwordAttack : MonoBehaviour
     {
         if (m_isAttack && m_attackTime >= m_attackInterval)
         {
-            if (IsAttack())
-            {
-                m_inEnemyRay.collider.GetComponent<EnemyScript>().EnemyDamage = true;
-            }
             m_attackTime = 0;
+            m_as.loop = false;
+            m_as.PlayOneShot(m_swordSE);
+            m_anim.Play("Attack");
         }
         m_isAttack = false;
+    }
+
+    void AnimDamage()
+    {
+        if (IsAttack())
+        {
+            m_inEnemyRay.collider.GetComponent<EnemyScript>().EnemyDamage = true;
+        }
     }
 
     /// <summary>

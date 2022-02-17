@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using UnityEngine.InputSystem;
 
 public class PlayerWallRun : MonoBehaviour
@@ -8,10 +9,10 @@ public class PlayerWallRun : MonoBehaviour
 
     [Header("WallRunPlayerStates")]
     [SerializeField, Tooltip("ウォールラン中のジャンプパワー")] float m_wallRunJumpForce;
+    [SerializeField] float m_wallRunSpeed;
+    [SerializeField] float m_movementMultiplier;
 
     [Header("Camera")]
-    [Tooltip("FOV初期値")] float m_firstFOV;
-    [SerializeField, Tooltip("視野角変化までの偏移時間")] float m_wallRunfovTime;
     [SerializeField, Tooltip("ウォールラン時のカメラ角度")] float m_camTilt;
     [SerializeField, Tooltip("角度変化までの時間偏移")] float m_camTiltTime;
     [Tooltip("角度状態")] float m_tilt;
@@ -19,17 +20,36 @@ public class PlayerWallRun : MonoBehaviour
     [Header("IsWall")]
     [Tooltip("左の壁か")]bool m_wallLeft = false;
     [Tooltip("右の壁か")]bool m_wallRight = false;
-    [Tooltip("当たった左の壁")]RaycastHit m_leftWallHit;
-    [Tooltip("当たった右の壁")]RaycastHit m_rightWallHit;
+    [Tooltip("当たった左の壁")]RaycastHit m_leftWallHit = default;
+    [Tooltip("当たった右の壁")]RaycastHit m_rightWallHit = default;
     [SerializeField, Tooltip("判定距離")] float m_wallDistance = 0.5f;
     [SerializeField, Tooltip("ジャンプした際の判定距離")] float m_minimumJumpHeight = 1.5f;
     [SerializeField, Tooltip("ランウォールのレイヤー")] LayerMask m_wall;
+    bool m_isWallRun = false;
+    bool m_wallRunStart = false;
 
-    //[Header("Input")]
-    [Tooltip("ウォールジャンプインプットシステム")]bool m_isWallJump;
+    public bool IsWallRun => m_isWallRun;
 
     //[Header("Ather")]
     [Tooltip("Rigidbody")]Rigidbody m_rb;
+
+    /// <summary>WallRunジャンプインプットシステム</summary>
+    public void PlayerWallJump(InputAction.CallbackContext context)
+    {
+        if (context.started && m_isWallRun)
+        {
+            Vector3 wallRunJumpDirection = Vector3.zero;
+            if (m_wallLeft)
+            {
+                wallRunJumpDirection =  m_leftWallHit.normal + m_leftWallHit.normal + transform.up;
+            }
+            else if (m_wallRight)
+            {
+                wallRunJumpDirection =  m_rightWallHit.normal + m_rightWallHit.normal + transform.up;
+            }
+            m_rb.AddForce(wallRunJumpDirection.normalized * m_wallRunJumpForce, ForceMode.Impulse);
+        }
+    }
 
     /// <summary>
     /// WallRunできるかどうか
@@ -52,7 +72,6 @@ public class PlayerWallRun : MonoBehaviour
     void Setup()
     {
         m_rb = GetComponent<Rigidbody>();
-        m_firstFOV = UseCamera.CVC.m_Lens.FieldOfView;
     }
 
     /// <summary>どっち方向の壁か　どの壁か</summary>
@@ -65,8 +84,12 @@ public class PlayerWallRun : MonoBehaviour
     void Update()
     {
         CheckWall();
+        CameraTilt();
+    }
+
+    void FixedUpdate()
+    {
         WallRunReady();
-        Camera();
     }
 
     /// <summary>WallRunの準備フェイズ</summary>
@@ -97,52 +120,67 @@ public class PlayerWallRun : MonoBehaviour
     void StartWallRun()
     {
         m_rb.useGravity = false;
-        UseCamera.CVC.m_Lens.FieldOfView = Mathf.Lerp(UseCamera.CVC.m_Lens.FieldOfView, m_firstFOV + 20, m_wallRunfovTime * Time.deltaTime);
-
+        if(!m_wallRunStart)
+            StartCoroutine(WallRun());
+        Vector3 dir = Vector3.zero;
         if (m_wallLeft)
         {
+            if(m_playerCamera.transform.forward.z >= 0)
+            {
+                dir = m_leftWallHit.collider.gameObject.transform.forward;
+            }
+            else if(m_playerCamera.transform.forward.z < 0)
+            {
+                dir = -m_leftWallHit.collider.gameObject.transform.forward;
+            }
+            if (m_playerCamera.transform.forward.z >= 0)
+            {
+                dir = m_leftWallHit.collider.gameObject.transform.forward;
+            }
+            else if (m_playerCamera.transform.forward.z < 0)
+            {
+                dir = -m_leftWallHit.collider.gameObject.transform.forward;
+            }
             m_tilt = Mathf.Lerp(m_tilt, -m_camTilt, m_camTiltTime * Time.deltaTime);
+            Debug.DrawRay(transform.position, transform.up + m_leftWallHit.normal + m_leftWallHit.normal * 10, Color.red);
         }
         else if (m_wallRight)
         {
+            if (m_playerCamera.transform.forward.z >= 0)
+            {
+                dir = m_rightWallHit.collider.gameObject.transform.forward;
+            }
+            else if(m_playerCamera.transform.forward.z < 0)
+            {
+                dir = -m_rightWallHit.collider.gameObject.transform.forward;
+            }
             m_tilt = Mathf.Lerp(m_tilt, m_camTilt, m_camTiltTime * Time.deltaTime);
+            Debug.DrawRay(transform.position, transform.up + m_rightWallHit.normal + m_rightWallHit.normal * 10, Color.red);
         }
+        dir.y = 0;
+        m_rb.AddForce(dir.normalized * m_wallRunSpeed * m_movementMultiplier,ForceMode.Acceleration);
+    }
 
-        if (m_isWallJump)
-        {
-            if (m_wallLeft)
-            {
-                Vector3 wallRunJumpDirection = transform.up + m_leftWallHit.normal;
-                m_rb.velocity = new Vector3(m_rb.velocity.x, 0, m_rb.velocity.z);
-                m_rb.AddForce(wallRunJumpDirection * m_wallRunJumpForce * 100, ForceMode.Force);
-            }
-            else if (m_wallRight)
-            {
-                Vector3 wallRunJumpDirection = transform.up + m_rightWallHit.normal;
-                m_rb.velocity = new Vector3(m_rb.velocity.x, 0, m_rb.velocity.z);
-                m_rb.AddForce(wallRunJumpDirection * m_wallRunJumpForce * 100, ForceMode.Force);
-            }
-            m_isWallJump = false;
-        }
+    IEnumerator WallRun()
+    {
+        m_wallRunStart = true;
+        m_rb.velocity = new Vector3(m_rb.velocity.x, 0, m_rb.velocity.z);
+        yield return new WaitForSeconds(0.2f);
+        m_isWallRun = true;
     }
 
     /// <summary>NotWallRun処理</summary>
     void StopWallRun()
     {
-        UseCamera.CVC.m_Lens.FieldOfView = Mathf.Lerp(UseCamera.CVC.m_Lens.FieldOfView, m_firstFOV, m_wallRunfovTime * Time.deltaTime);
         m_rb.useGravity = true;
         m_tilt = Mathf.Lerp(m_tilt, 0, m_camTiltTime * Time.deltaTime);
+        m_isWallRun = false;
+        m_wallRunStart = false;
     }
 
     /// <summary>Cameraの角度</summary>
-    void Camera()
+    void CameraTilt()
     {
         UseCamera.CVC.m_Lens.Dutch = m_tilt;
-    }
-
-    /// <summary>WallRunジャンプインプットシステム</summary>
-    public void PlayerWallJump(InputAction.CallbackContext context)
-    {
-        m_isWallJump = context.ReadValueAsButton();
     }
 }

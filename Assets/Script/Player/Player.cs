@@ -37,6 +37,11 @@ public class Player : MonoBehaviour
     [Tooltip("スロープの当たり判定")] RaycastHit m_sloopeHit;
     [Tooltip("Rigidbody")] Rigidbody m_rb;
     [SerializeField, Tooltip("最初のシネマシン")] CinemachineVirtualCamera m_firstCamera;
+    PlayerWallRun m_pwr;
+    [SerializeField] AudioSource m_as;
+    [SerializeField] AudioClip m_runAudio;
+    [SerializeField] AudioClip m_jumpAudio;
+    bool m_on;
 
     void Awake()
     {
@@ -64,6 +69,7 @@ public class Player : MonoBehaviour
     /// <summary>一番最初のセットアップ</summary>
     void AwakeSetUp()
     {
+        m_pwr = GetComponent<PlayerWallRun>();
         UseCamera.CVC = m_firstCamera;
     }
 
@@ -131,6 +137,7 @@ public class Player : MonoBehaviour
     /// <summary>移動</summary>
     void Move()
     {
+        if (m_pwr.IsWallRun) return;
         Vector3 dir = Camera.main.transform.TransformDirection(m_moveDir);
         dir.y = 0;
         if (IsGround() && !OnSloope() && !m_isDown)
@@ -163,10 +170,18 @@ public class Player : MonoBehaviour
         Collider[] collision = Physics.OverlapBox(m_centor, m_size, Quaternion.identity, m_zimen);
         if (collision.Length != 0)
         {
+            if (m_on)
+            {
+                m_as.PlayOneShot(m_jumpAudio);
+                m_as.loop = false;
+                m_on = false;
+            }
+            
             return true;
         }
         else
         {
+            m_on = true;
             m_isJump = false;
             return false;
         }
@@ -194,21 +209,6 @@ public class Player : MonoBehaviour
         }
         return false;
     }
-
-    //bool OnDownHill()
-    //{
-
-    //    if (OnSloope() && m_slopeMoveDir)
-    //    {
-    //        return true;
-    //    }
-    //    else
-    //    {
-    //        return false;
-    //    }
-
-    //    return false;
-    //}
 
     /// <summary>
     /// 設置判定のGizmo表示

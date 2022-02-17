@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - BombMazzle
+  - Start
   layers:
   - Default
   - TransparentFX

@@ -12,14 +12,14 @@ public class CursorManager : MonoBehaviour
     [SerializeField] bool m_cursor;
     void Start()
     {
-        SetUp();
+        SetUp(m_cursor);
     }
 
-    public void SetUp()
+    public void SetUp(bool on)
     {
-        Cursor.visible = m_cursor;
+        Cursor.visible = on;
 
-        if (m_cursor)
+        if (on)
         {
             Cursor.lockState = CursorLockMode.None;
         }

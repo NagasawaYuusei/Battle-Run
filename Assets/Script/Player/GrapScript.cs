@@ -16,13 +16,18 @@ public class GrapScript : MonoBehaviour
 
     [SerializeField] LineRenderer m_lr;
     [SerializeField] Transform m_gunTransform;
-
     public bool OnGrapple{ get { return m_onGrapple; } }
     public Vector3 GetGrapplePoint { get { return m_hitTransform.position; } }
+
 
     void Update()
     {
         GrapCheck();
+    }
+
+    void FixedUpdate()
+    {
+        AddPowerReady();
     }
 
     void LateUpdate()
@@ -39,6 +44,11 @@ public class GrapScript : MonoBehaviour
         if (context.started)
         {
             PointHit();
+        }
+
+        if(context.canceled)
+        {
+            m_onGrapple = false;
         }
     }
 
@@ -79,7 +89,10 @@ public class GrapScript : MonoBehaviour
         {
             PointHit();
         }
+    }
 
+    void AddPowerReady()
+    {
         if (m_onGrapple)
         {
             AddPower();
@@ -94,14 +107,6 @@ public class GrapScript : MonoBehaviour
         Vector3 dir = m_hitTransform.position - transform.position;
         dir = new Vector3(dir.x, dir.y * m_yPower, dir.z);
         m_playerRb.AddForce(dir * m_grapPower, ForceMode.Force);
-        if(isNear(transform, m_hitTransform) && transform.position.y <= m_hitTransform.position.y)
-        {
-            m_playerRb.AddForce(transform.up * m_grapPower, ForceMode.Force);
-        }
-        else if(isNear(transform, m_hitTransform) && transform.position.y > m_hitTransform.position.y)
-        {
-            m_onGrapple = false;
-        }
     }
 
     /// <summary>
