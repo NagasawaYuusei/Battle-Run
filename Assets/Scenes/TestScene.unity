@@ -123,6 +123,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &111018846 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1675510592768641967, guid: ee0b68a210f5e6343bcbcf0b0d61ba5c,
+    type: 3}
+  m_PrefabInstance: {fileID: 311162389}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &150004598 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6761185364919218913, guid: cecebf01b90f89040891dda8a44dc788,
@@ -552,6 +558,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1675510592768641962, guid: ee0b68a210f5e6343bcbcf0b0d61ba5c,
         type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1675510592768641962, guid: ee0b68a210f5e6343bcbcf0b0d61ba5c,
+        type: 3}
       propertyPath: m_playerRb
       value: 
       objectReference: {fileID: 1112319565}
@@ -851,8 +862,8 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 933500729}
-        m_TargetAssemblyTypeName: GrapScript, Assembly-CSharp
+      - m_Target: {fileID: 933500731}
+        m_TargetAssemblyTypeName: GrapScript1, Assembly-CSharp
         m_MethodName: PlayerGrap
         m_Mode: 0
         m_Arguments:
@@ -1425,6 +1436,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1e2835420307374aa973614caca6b04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!120 &778860643 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 2590237699643246934, guid: ee0b68a210f5e6343bcbcf0b0d61ba5c,
+    type: 3}
+  m_PrefabInstance: {fileID: 311162389}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &819331503
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1506,7 +1523,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh43244
+  m_Name: pb_Mesh21760
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1698,18 +1715,33 @@ Transform:
   m_Father: {fileID: 184528488}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &933500729 stripped
+--- !u!114 &933500731
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1675510592768641962, guid: ee0b68a210f5e6343bcbcf0b0d61ba5c,
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111018846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d639b7c8e416fb5419cb340686094006, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_grapRange: 200
+  m_onRay: 1
+  m_pointLayerValue: 15
+  m_playerRb: {fileID: 1112319565}
+  m_pointNearRange: 5
+  m_grapPower: 5
+  m_yPower: 2.5
+  m_lr: {fileID: 778860643}
+  m_gunTransform: {fileID: 976732755}
+--- !u!4 &976732755 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1675510592329788976, guid: ee0b68a210f5e6343bcbcf0b0d61ba5c,
     type: 3}
   m_PrefabInstance: {fileID: 311162389}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09735ce0ec985444187a46974287cf08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1112319560
 GameObject:
   m_ObjectHideFlags: 0
@@ -1855,7 +1887,6 @@ MonoBehaviour:
   m_airDrag: 1
   m_firstCamera: {fileID: 625824700}
   m_as: {fileID: 3778881660279350579}
-  m_runAudio: {fileID: 0}
   m_jumpAudio: {fileID: 8300000, guid: 76b65c0047b1593449a3c6f645530006, type: 3}
 --- !u!114 &1112319568
 MonoBehaviour:
@@ -1873,7 +1904,7 @@ MonoBehaviour:
   m_wallRunJumpForce: 30
   m_wallRunSpeed: 3
   m_movementMultiplier: 10
-  m_camTilt: 10
+  m_camTilt: 15
   m_camTiltTime: 20
   m_wallDistance: 1
   m_minimumJumpHeight: 1.5
@@ -1886,7 +1917,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh43332
+  m_Name: pb_Mesh21848
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2536,7 +2567,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-52520
+  m_Name: pb_Mesh21720
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3075,7 +3106,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh43300
+  m_Name: pb_Mesh21816
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3813,7 +3844,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-28500
+  m_Name: pb_Mesh21886
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

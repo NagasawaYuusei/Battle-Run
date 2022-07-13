@@ -61,6 +61,7 @@
     <Compile Include="Assets\Script\Player\SwordAttack.cs" />
     <Compile Include="Assets\Input\RebindingInput.cs" />
     <Compile Include="Assets\Script\ReMakes\Athers\GameManager.cs" />
+    <Compile Include="Assets\Script\Player\GrapScript1.cs" />
     <Compile Include="Assets\SceneManager\SceneChange.cs" />
     <Compile Include="Assets\Script\Player\GrapScript.cs" />
     <Compile Include="Assets\Script\Player\PlayerWallRun.cs" />
@@ -90,6 +91,8 @@
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleAudio.cs" />
     <Compile Include="Assets\SceneManager\MusicManager.cs" />
     <Compile Include="Assets\Script\ReMakes\Athers\SingletonMonoBehaviour.cs" />
+    <Compile Include="Assets\Script\Game\Skill\SkillController.cs" />
+    <Compile Include="Assets\Script\Game\Skill\SkillTableController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Assets\Plugins\Demigiant\DOTween\DOTween.XML" />

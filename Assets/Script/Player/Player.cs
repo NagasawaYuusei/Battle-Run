@@ -39,7 +39,6 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("最初のシネマシン")] CinemachineVirtualCamera m_firstCamera;
     PlayerWallRun m_pwr;
     [SerializeField] AudioSource m_as;
-    [SerializeField] AudioClip m_runAudio;
     [SerializeField] AudioClip m_jumpAudio;
     bool m_on;
 
