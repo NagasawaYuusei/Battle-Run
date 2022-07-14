@@ -227,9 +227,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 4683ffff
-      m_LastClickedID: 0
-      m_ExpandedIDs: 12fbffffe6540000
+      m_SelectedIDs: 40560000
+      m_LastClickedID: 22080
+      m_ExpandedIDs: 10fbffff00560000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -314,8 +314,8 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: 0, y: 0}
-      snapOffsetDelta: {x: -100, y: -25.600006}
+      snapOffset: {x: -101, y: -26}
+      snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 3
       id: Tool Settings
       index: 0
@@ -506,9 +506,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 1247.395, y: 608.96704, z: 10.717478}
+    m_Target: {x: -14.852846, y: 6.784336, z: 47.572266}
     speed: 2
-    m_Value: {x: 14.605, y: -6.0150003, z: 16.423508}
+    m_Value: {x: -14.852846, y: 6.784336, z: 47.572266}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -539,7 +539,7 @@ MonoBehaviour:
       m_Fade:
         m_Target: 0
         speed: 2
-        m_Value: 1
+        m_Value: 0
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
       m_Pivot: {x: 0, y: 0, z: 0}
       m_Size: {x: 1, y: 1}
@@ -557,11 +557,11 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: 0, y: 0, z: 0, w: 1}
     speed: 2
-    m_Value: {x: -0.000000006657127, y: 0.00000006869945, z: -0.000000016071727, w: -0.99999994}
+    m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 1325.3508
+    m_Target: 19.955124
     speed: 2
-    m_Value: 12.172347
+    m_Value: 19.955124
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -682,7 +682,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 25567
+  controlID: 4317
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -753,22 +753,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/ClassDiagrom
+    - Assets/Script/Game/Skill
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/ClassDiagrom
+  - Assets/Script/Game/Skill
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\vantan\Documents\Unity\Battle Run
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 15.800018}
-    m_SelectedIDs: 7a570000
-    m_LastClickedID: 22394
-    m_ExpandedIDs: 000000004257000044570000465700004857000000ca9a3b
+    scrollPos: {x: 0, y: 27.800018}
+    m_SelectedIDs: 0e570000
+    m_LastClickedID: 22286
+    m_ExpandedIDs: 00000000805600008256000084560000865600000a57000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -796,7 +796,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000004257000044570000465700004857000000ca9a3b
+    m_ExpandedIDs: 000000008056000082560000845600008656000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -821,8 +821,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 4683ffff
-    m_LastClickedInstanceID: -31930
+    m_SelectedInstanceIDs: 40560000
+    m_LastClickedInstanceID: 22080
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
@@ -883,7 +883,7 @@ MonoBehaviour:
     m_SaveData: []
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -31930
+  m_LastSelectedObjectID: 22080
 --- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52

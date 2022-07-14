@@ -90,7 +90,6 @@ public class GrapScript1 : MonoBehaviour
     /// </summary>
     void AddPower()
     {
-        Debug.Log("a");
         Vector3 dir = m_hitTransform.position - transform.position;
         dir = new Vector3(dir.x, dir.y * m_yPower, dir.z);
         

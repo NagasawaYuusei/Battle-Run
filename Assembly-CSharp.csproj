@@ -73,9 +73,11 @@
     <Compile Include="Assets\Script\ReMakes\Athers\CreateLine.cs" />
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModulePhysics2D.cs" />
     <Compile Include="Assets\Script\Player\Player.cs" />
+    <Compile Include="Assets\Script\Game\Skill\SkillController.cs" />
     <Compile Include="Assets\SceneManager\SceneController.cs" />
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModulePhysics.cs" />
     <Compile Include="Assets\Script\ReMakes\Athers\TimeManager.cs" />
+    <Compile Include="Assets\Script\Game\Skill\SkillTableManager.cs" />
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleEPOOutline.cs" />
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleSprite.cs" />
@@ -91,8 +93,6 @@
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleAudio.cs" />
     <Compile Include="Assets\SceneManager\MusicManager.cs" />
     <Compile Include="Assets\Script\ReMakes\Athers\SingletonMonoBehaviour.cs" />
-    <Compile Include="Assets\Script\Game\Skill\SkillController.cs" />
-    <Compile Include="Assets\Script\Game\Skill\SkillTableController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Assets\Plugins\Demigiant\DOTween\DOTween.XML" />

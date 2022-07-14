@@ -6,16 +6,11 @@ public class SkillController : MonoBehaviour
     Vector2[] _tipPotisions;
     RectTransform _rt;
     [SerializeField] int _size = 50;
-
+    [SerializeField] SkillTableManager _tableManager;
     void Start()
     {
         SetUp();
         SetTipPosition();
-    }
-
-    void Update()
-    {
-        
     }
 
     private void LateUpdate()
@@ -31,18 +26,25 @@ public class SkillController : MonoBehaviour
 
     private void MouseMove()
     {
-        if (Input.GetMouseButtonDown(0) && !_moveTip)
+        if (Input.GetMouseButtonDown(0) && !_moveTip && !_tableManager.IsSkillTipMove)
         {
             Vector3 mousePosition = Input.mousePosition;
             if (MouseCheck(mousePosition))
             {
                 _moveTip = true;
+                _tableManager.ChangeMoveState(true);
             }
         }
         else if (Input.GetMouseButtonDown(0) && _moveTip)
         {
-            SetTipPosition();
-            _moveTip = false;
+            int num = _tableManager.SerchSet(Input.mousePosition);
+            if(num >= 0)
+            {
+                _rt.anchoredPosition = _tableManager.SetTableTip(num);
+                SetTipPosition();
+                _moveTip = false;
+                _tableManager.ChangeMoveState(false);
+            }
         }
 
         if (_moveTip)
