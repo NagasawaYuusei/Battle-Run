@@ -2,22 +2,22 @@ using UnityEngine.SceneManagement;
 
 public class SceneChange
 {
-    private static bool roadNow = false;
+    private static bool loadNow = false;
     /// <summary>
     /// 指定シーンに移行する
     /// </summary>
     public static void LoadScene(string sceneName)
     {
-        if (roadNow)
+        if (loadNow)
         {
             return;
         }
-        roadNow = true;
+        loadNow = true;
         FadeController.StartFadeOut(() => Load(sceneName));
     }  
     private static void Load(string sceneName)
     {
-        roadNow = false;
+        loadNow = false;
         SceneManager.LoadScene(sceneName);
     }
 }

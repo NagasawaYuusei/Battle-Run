@@ -1,46 +1,98 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SkillTableManager : MonoBehaviour
 {
     [SerializeField] GameObject _tableObject;
-    Vector2[] _tableTransforms;
+    Vector2[,] _tableTransforms;
+    [SerializeField] int _horizontalTipNum = 4;
+    [SerializeField] int _verticalTipNum = 4;
     [SerializeField] int _size = 50;
+    [SerializeField] Sprite _sprite;
     bool _isSkillTipMove;
     public bool IsSkillTipMove => _isSkillTipMove;
 
     void Start()
     {
-        _tableTransforms = new Vector2[_tableObject.transform.childCount];
-        for(int i = 0; i < _tableTransforms.Length; i++)
-        {
-            _tableTransforms[i] = _tableObject.transform.GetChild(i).GetComponent<RectTransform>().localPosition;
-            _tableTransforms[i] = new Vector2(_tableTransforms[i].x + _tableObject.GetComponent<RectTransform>().anchoredPosition.x,
-                _tableTransforms[i].y + _tableObject.GetComponent<RectTransform>().anchoredPosition.y);
+        SetTableTip();
+    }
 
+    void SetTableTip()
+    {
+        _tableTransforms = new Vector2[_verticalTipNum, _horizontalTipNum];
+        int[] horizontal = new int[_horizontalTipNum];
+        int[] vertical = new int[_verticalTipNum];
+        if (_horizontalTipNum % 2 == 0)
+        {
+            for(int i = 0; i < _horizontalTipNum; i++)
+            {
+                horizontal[i] = ((-1) * (_horizontalTipNum / 2) * _size) + (_size / 2) + (_size * i);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < _horizontalTipNum; i++)
+            {
+                horizontal[i] = ((-1) * (_horizontalTipNum / 2) * _size) + (_size * i);
+            }
+        }
+
+        if(_verticalTipNum % 2 == 0)
+        {
+            for (int i = 0; i < _verticalTipNum; i++)
+            {
+                vertical[i] = ((_verticalTipNum / 2) * _size) - (_size / 2) - (_size * i);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < _verticalTipNum; i++)
+            {
+                vertical[i] = ((_verticalTipNum / 2) * _size) - (_size * i);
+            }
+        }
+
+        for (int v = 0; v < _verticalTipNum; v++)
+        {
+            for (int h = 0; h < _horizontalTipNum; h++)
+            {
+                GameObject tableTip = new GameObject($"TableTip({v + 1}, {h + 1})");
+                tableTip.transform.parent = _tableObject.transform;
+                Image image = tableTip.AddComponent<Image>();
+                image.sprite = _sprite;
+
+                RectTransform tableTipTransform = tableTip.GetComponent<RectTransform>();
+                tableTipTransform.sizeDelta = new Vector2(_size, _size);
+                tableTipTransform.localPosition = new Vector2(horizontal[h], vertical[v]);
+                _tableTransforms[v, h] = tableTipTransform.localPosition;
+                _tableTransforms[v, h] = new Vector2(_tableTransforms[v, h].x + _tableObject.GetComponent<RectTransform>().anchoredPosition.x,
+                    _tableTransforms[v, h].y + _tableObject.GetComponent<RectTransform>().anchoredPosition.y);
+            }
         }
     }
 
-    public int SerchSet(Vector2 mousePos)
+    public int[] SerchSet(Vector2 mousePos)
     {
-        for (int i = 0; i < _tableTransforms.Length; i++)
+        for (int v = 0; v < _verticalTipNum; v++)
         {
-            if (_tableTransforms[i].x + (_size / 2) > mousePos.x && mousePos.x > _tableTransforms[i].x - (_size / 2))
+            for (int h = 0; h < _horizontalTipNum; h++)
             {
-                if (_tableTransforms[i].y + (_size / 2) > mousePos.y && mousePos.y > _tableTransforms[i].y - (_size / 2))
+                if (_tableTransforms[v,h].x + (_size / 2) > mousePos.x && mousePos.x > _tableTransforms[v,h].x - (_size / 2))
                 {
-                    return i;
+                    if (_tableTransforms[v,h].y + (_size / 2) > mousePos.y && mousePos.y > _tableTransforms[v,h].y - (_size / 2))
+                    {
+                        return new int[] {v,h};
+                    }
                 }
             }
         }
 
-        return -1;
+        return null;
     }
 
-    public Vector2 SetTableTip(int tipNum)
+    public Vector2 TableTip(int[] tipNums)
     {
-        return _tableTransforms[tipNum];
+        return _tableTransforms[tipNums[0],tipNums[1]];
     }
 
     public void ChangeMoveState(bool state)

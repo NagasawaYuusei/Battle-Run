@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Skillピース
+/// </summary>
 public class SkillController : MonoBehaviour
 {
     bool _moveTip;
@@ -24,7 +27,10 @@ public class SkillController : MonoBehaviour
         _tipPotisions = new Vector2[transform.childCount];
     }
 
-    private void MouseMove()
+    /// <summary>
+    /// マウスの動き
+    /// </summary>
+    void MouseMove()
     {
         if (Input.GetMouseButtonDown(0) && !_moveTip && !_tableManager.IsSkillTipMove)
         {
@@ -37,10 +43,10 @@ public class SkillController : MonoBehaviour
         }
         else if (Input.GetMouseButtonDown(0) && _moveTip)
         {
-            int num = _tableManager.SerchSet(Input.mousePosition);
-            if(num >= 0)
+            int[] nums = _tableManager.SerchSet(Input.mousePosition);
+            if(nums != null)
             {
-                _rt.anchoredPosition = _tableManager.SetTableTip(num);
+                _rt.anchoredPosition = _tableManager.TableTip(nums);
                 SetTipPosition();
                 _moveTip = false;
                 _tableManager.ChangeMoveState(false);
@@ -54,6 +60,9 @@ public class SkillController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 新しいピースの場所を保存
+    /// </summary>
     void SetTipPosition()
     {
         for (int i = 0; i < _tipPotisions.Length; i++)
@@ -63,14 +72,21 @@ public class SkillController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// クリックした際にマウスがピースの上にあるか
+    /// </summary>
+    /// <param name="vec">マウスのポジション</param>
+    /// <returns>ピースの上か否か</returns>
     bool MouseCheck(Vector2 vec)
     {
+        //チップひとつひとつを探索
         for (int i = 0; i < _tipPotisions.Length; i++)
         {
             if (_tipPotisions[i].x + (_size / 2) > vec.x && vec.x > _tipPotisions[i].x - (_size / 2))
             {
                 if (_tipPotisions[i].y + (_size / 2) > vec.y && vec.y > _tipPotisions[i].y - (_size / 2))
                 { 
+                    //カーソルの上にそれがあった時点でTrueとする。
                     return true;
                 }
             }
