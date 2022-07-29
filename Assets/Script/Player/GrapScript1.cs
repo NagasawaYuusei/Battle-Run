@@ -62,15 +62,6 @@ public class GrapScript1 : MonoBehaviour
                 m_lr.positionCount = 2;
                 AddPower();
             }
-            else
-            {
-                hit = false;
-                return;
-            }
-        }
-        else
-        {
-            return;
         }
     }
 
@@ -93,7 +84,7 @@ public class GrapScript1 : MonoBehaviour
         Vector3 dir = m_hitTransform.position - transform.position;
         dir = new Vector3(dir.x, dir.y * m_yPower, dir.z);
         
-        m_playerRb.transform.DOMove(m_hitTransform.position, 1f).SetEase(Ease.OutQuad).OnComplete(() =>
+        m_playerRb.transform.DOMove(m_hitTransform.position, 1f).SetEase(Ease.InCubic).OnComplete(() =>
             {
                 m_playerRb.velocity = Vector3.zero;
                 //m_playerRb.AddForce(dir * m_grapPower, ForceMode.Impulse);

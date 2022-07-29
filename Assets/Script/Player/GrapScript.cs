@@ -16,7 +16,7 @@ public class GrapScript : MonoBehaviour
 
     [SerializeField] LineRenderer m_lr;
     [SerializeField] Transform m_gunTransform;
-    public bool OnGrapple{ get { return m_onGrapple; } }
+    public bool OnGrapple { get { return m_onGrapple; } }
     public Vector3 GetGrapplePoint { get { return m_hitTransform.position; } }
 
 
@@ -46,7 +46,7 @@ public class GrapScript : MonoBehaviour
             PointHit();
         }
 
-        if(context.canceled)
+        if (context.canceled)
         {
             m_onGrapple = false;
         }
@@ -58,26 +58,18 @@ public class GrapScript : MonoBehaviour
     void PointHit()
     {
         bool hit = Physics.Raycast(transform.position, transform.forward, out m_hit, m_grapRange);
-        Debug.DrawRay(transform.position,transform.forward * m_grapRange, Color.blue);
-        if(hit && !m_onGrapple)
+        Debug.DrawRay(transform.position, transform.forward * m_grapRange, Color.blue);
+        if (hit && !m_onGrapple)
         {
-            if(m_hit.collider.gameObject.layer == m_pointLayerValue)
+            if (m_hit.collider.gameObject.layer == m_pointLayerValue)
             {
                 m_hitTransform = m_hit.collider.gameObject.transform;
                 m_lr.enabled = true;
                 m_lr.positionCount = 2;
                 m_onGrapple = true;
             }
-            else
-            {
-                hit = false;
-                return;
-            }
         }
-        else
-        {
-            return;
-        }
+        return;
     }
 
     /// <summary>
@@ -118,7 +110,7 @@ public class GrapScript : MonoBehaviour
     bool isNear(Transform transform, Transform pointTransform)
     {
         float dis = Vector3.Distance(transform.position, pointTransform.position);
-        if(dis < m_pointNearRange)
+        if (dis < m_pointNearRange)
         {
             return true;
         }

@@ -10,13 +10,19 @@ public class SkillController : MonoBehaviour
     RectTransform _rt;
     [SerializeField] int _size = 50;
     [SerializeField] SkillTableManager _tableManager;
+
+    // mino回転
+    Vector3 _rotationPoint;
+
+    // grid
+    //static Transform[,] grid = new Transform[width, height];
     void Start()
     {
         SetUp();
         SetTipPosition();
     }
 
-    private void LateUpdate()
+    void LateUpdate()
     {
         MouseMove();
     }
@@ -53,6 +59,11 @@ public class SkillController : MonoBehaviour
             }
         }
 
+        if (Input.GetMouseButtonDown(1) && _moveTip)
+        {
+            transform.RotateAround(transform.TransformPoint(_rotationPoint), new Vector3(0, 0, 1), 90);
+        }
+
         if (_moveTip)
         {
             Vector3 mousePosition = Input.mousePosition;
@@ -77,6 +88,10 @@ public class SkillController : MonoBehaviour
     /// </summary>
     /// <param name="vec">マウスのポジション</param>
     /// <returns>ピースの上か否か</returns>
+    /// 
+
+
+    //変更
     bool MouseCheck(Vector2 vec)
     {
         //チップひとつひとつを探索

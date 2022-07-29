@@ -100,3 +100,28 @@ public class SkillTableManager : MonoBehaviour
         _isSkillTipMove = state;
     }
 }
+
+public class SkillState
+{
+    TipState[] m_tipStates;
+    public enum Skill
+    {
+        None,
+        Skill1,
+        Skill2,
+        Skill3,
+        Skill4,
+    };
+
+    Skill m_skill = Skill.None;
+
+    void TipStatesSet(int tipNums)
+    {
+        m_tipStates = new TipState[tipNums];
+    }
+}
+
+public class TipState
+{
+    int[] m_tipPos = new int[2];
+}
