@@ -49,12 +49,18 @@ public class SkillController : MonoBehaviour
         }
         else if (Input.GetMouseButtonDown(0) && _moveTip)
         {
+            //置けるかどうかを判定
             int[] nums = _tableManager.SerchSet(Input.mousePosition);
             if(nums != null)
             {
+                //Tipの位置を固定
                 _rt.anchoredPosition = _tableManager.TableTip(nums);
+                //Tipの位置を保存
                 SetTipPosition();
+
+                //Tip内での動かしているという情報を変更
                 _moveTip = false;
+                //動かしているという状態を変更
                 _tableManager.ChangeMoveState(false);
             }
         }

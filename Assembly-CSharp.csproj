@@ -85,6 +85,7 @@
     <Compile Include="Assets\SceneManager\SceneChange.cs" />
     <Compile Include="Assets\Script\Player\UseCamera.cs" />
     <Compile Include="Assets\Script\ReMakes\GameFinishCon.cs" />
+    <Compile Include="Assets\Script\Player\Blink.cs" />
     <Compile Include="Assets\Script\ReMakes\Athers\CreateLine.cs" />
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModulePhysics.cs" />
     <Compile Include="Assets\Script\ReMakes\Athers\TimeManager.cs" />

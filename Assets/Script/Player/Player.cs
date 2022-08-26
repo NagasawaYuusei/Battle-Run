@@ -6,9 +6,9 @@ public class Player : MonoBehaviour
 {
     [Header("Speed")]
     [Tooltip("スピード")] float m_moveSpeed = 4f;
+    [SerializeField, Tooltip("通常のスピード")] float m_defaultMoveSpeed = 12;
     [Tooltip("通常乗数")] float m_movementMultiplier = 10f;
     [SerializeField, Tooltip("空中乗数")] float m_airMultiplier = 0.4f;
-    [SerializeField, Tooltip("最大スピード")] float m_maxMoveSpeed = 4f;
     [Tooltip("しゃがみスピード")] float m_downSpeed;
     [SerializeField, Tooltip("しゃがみ最小スピード")] float m_downMinSpeed;
     [SerializeField, Tooltip("スライディング最大スピード")] float m_downAccelerationMaxSpeed;
@@ -76,8 +76,8 @@ public class Player : MonoBehaviour
     void FirstSetUp()
     {
         m_rb = GetComponent<Rigidbody>();
+        DefaultSpeedReset();
         m_rb.freezeRotation = true;
-        m_moveSpeed = m_maxMoveSpeed;
     }
 
     /// <summary>アップデートごとの状態</summary>
@@ -155,6 +155,16 @@ public class Player : MonoBehaviour
         {
             m_rb.AddForce((dir.normalized * m_moveSpeed * m_movementMultiplier * m_airMultiplier) + (m_rb.velocity.y * Vector3.up), ForceMode.Acceleration);
         }
+    }
+
+    public void ChangePlayerSpeed(float speed)
+    {
+        m_moveSpeed = speed;
+    }
+
+    public void DefaultSpeedReset()
+    {
+        m_moveSpeed = m_defaultMoveSpeed;
     }
 
     /// <summary>

@@ -5,11 +5,14 @@ public class SkillTableManager : MonoBehaviour
 {
     [SerializeField] GameObject _tableObject;
     Vector2[,] _tableTransforms;
-    [SerializeField] int _horizontalTipNum = 4;
-    [SerializeField] int _verticalTipNum = 4;
+    [SerializeField] static int _horizontalTipNum = 4;
+    [SerializeField] static int _verticalTipNum = 4;
     [SerializeField] int _size = 50;
     [SerializeField] Sprite _sprite;
     bool _isSkillTipMove;
+
+    Transform[,] grid = new Transform[_horizontalTipNum, _verticalTipNum];
+
     public bool IsSkillTipMove => _isSkillTipMove;
 
     void Start()
