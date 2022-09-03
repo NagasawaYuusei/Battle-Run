@@ -1,21 +1,19 @@
 using UnityEngine;
 
 /// <summary>
-/// Skillピース
+/// Skillピース一つ一つ
 /// </summary>
 public class SkillController : MonoBehaviour
 {
-    bool _moveTip;
-    Vector2[] _tipPotisions;
-    RectTransform _rt;
-    [SerializeField] int _size = 50;
-    [SerializeField] SkillTableManager _tableManager;
+    [Tooltip("チップを動かしているかどうか")] bool _moveTip;
+    [Tooltip("それぞれのチップの場所")] Vector2[] _tipPotisions;
+    [Tooltip("チップのトランスフォーム")]RectTransform _rt;
+    [Tooltip("チップの大きさ"), SerializeField] int _size = 50;
+    [Tooltip("スキルテーブルマネージャー"), SerializeField] SkillTableManager _tableManager;
 
-    // mino回転
-    Vector3 _rotationPoint;
+    [Tooltip("スキルチップの回転")] Vector3 _rotationPoint;
+    bool _isSet;
 
-    // grid
-    //static Transform[,] grid = new Transform[width, height];
     void Start()
     {
         SetUp();
@@ -27,9 +25,14 @@ public class SkillController : MonoBehaviour
         MouseMove();
     }
 
+    /// <summary>
+    /// チップの設定
+    /// </summary>
     void SetUp()
     {
+        //トランスフォームの取得
         _rt = GetComponent<RectTransform>();
+        //それぞれのチップの数
         _tipPotisions = new Vector2[transform.childCount];
     }
 
@@ -38,25 +41,34 @@ public class SkillController : MonoBehaviour
     /// </summary>
     void MouseMove()
     {
+        //マウス押したときの処理　もしチップをつかんでいなかったら
         if (Input.GetMouseButtonDown(0) && !_moveTip && !_tableManager.IsSkillTipMove)
         {
             Vector3 mousePosition = Input.mousePosition;
+            //もしカーソル下に自分があったら
             if (MouseCheck(mousePosition))
             {
+                if (_isSet)
+                {
+                    _tableManager.ClearTable(_tipPotisions);
+                    _isSet = false;
+                }
                 _moveTip = true;
                 _tableManager.ChangeMoveState(true);
             }
         }
+        //マウス押したときの処理　もしチップをつかんでいたら
         else if (Input.GetMouseButtonDown(0) && _moveTip)
         {
+            //Tipの位置を保存
+            SetTipPosition();
             //置けるかどうかを判定
-            int[] nums = _tableManager.SerchSet(Input.mousePosition);
+            int[] nums = _tableManager.SerchSet(_tipPotisions);
             if(nums != null)
             {
+                _isSet = true;
                 //Tipの位置を固定
                 _rt.anchoredPosition = _tableManager.TableTip(nums);
-                //Tipの位置を保存
-                SetTipPosition();
 
                 //Tip内での動かしているという情報を変更
                 _moveTip = false;
@@ -65,11 +77,13 @@ public class SkillController : MonoBehaviour
             }
         }
 
+        //マウス右クリックで回転
         if (Input.GetMouseButtonDown(1) && _moveTip)
         {
             transform.RotateAround(transform.TransformPoint(_rotationPoint), new Vector3(0, 0, 1), 90);
         }
 
+        //もし選択中ならマウスの先にチップを持ってくる
         if (_moveTip)
         {
             Vector3 mousePosition = Input.mousePosition;
@@ -84,7 +98,9 @@ public class SkillController : MonoBehaviour
     {
         for (int i = 0; i < _tipPotisions.Length; i++)
         {
+            //チップの子オブジェクトの場所を格納
             _tipPotisions[i] = transform.GetChild(i).GetComponent<RectTransform>().localPosition;
+            //チップの親オブジェクトとの誤差を埋める
             _tipPotisions[i] = new Vector2(_rt.anchoredPosition.x + _tipPotisions[i].x, _rt.anchoredPosition.y + _tipPotisions[i].y);
         }
     }
@@ -96,8 +112,7 @@ public class SkillController : MonoBehaviour
     /// <returns>ピースの上か否か</returns>
     /// 
 
-
-    //変更
+    //チップをつかむ
     bool MouseCheck(Vector2 vec)
     {
         //チップひとつひとつを探索
