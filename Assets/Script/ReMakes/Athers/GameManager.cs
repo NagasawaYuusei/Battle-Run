@@ -13,17 +13,12 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 
     public bool m_isCountDown { get; set; }
 
-    //public float m_first { get; set; }
+    bool _isChangeTime;
 
-    //public float m_second { get; set; }
-
-    //public float m_third { get; set; }
-
-    //public string m_firstName { get; set; }
-
-    //public string m_secondName { get; set; }
-
-    //public string m_thirdName { get; set; }
+    public void TimerChange(bool flg)
+    {
+        _isChangeTime = flg;
+    }
 
     public void GameStart(string str)
     {
