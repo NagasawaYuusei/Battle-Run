@@ -41,7 +41,7 @@ public class SwordAttack : MonoBehaviour
     {
         if (IsAttack())
         {
-            m_inEnemyRay.collider.GetComponent<EnemyScript>().EnemyDamage = true;
+            //m_inEnemyRay.collider.GetComponent<EnemyScript>().EnemyDamage = true;
         }
     }
 
@@ -56,14 +56,14 @@ public class SwordAttack : MonoBehaviour
     {
         if (Physics.Raycast(transform.position, transform.forward, out m_inEnemyRay, m_attackLength))
         {
-            if (m_inEnemyRay.collider.GetComponent<EnemyScript>())
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            //if (m_inEnemyRay.collider.GetComponent<EnemyScript>())
+            //{
+            //    return true;
+            //}
+            //else
+            //{
+            //    return false;
+            //}
         }
         return false;
     }

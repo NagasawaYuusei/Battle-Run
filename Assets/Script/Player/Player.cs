@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IPause
 {
     [Header("Speed")]
     [Tooltip("スピード")] float m_moveSpeed = 4f;
@@ -272,5 +272,22 @@ public class Player : MonoBehaviour
         {
             m_isDown = false;
         }
+    }
+
+    //IPause
+
+    public void OnPause()
+    {
+
+    }
+
+    public void OnResume()
+    {
+
+    }
+
+    public void OnSetUp()
+    {
+
     }
 }

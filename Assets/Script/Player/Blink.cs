@@ -60,6 +60,7 @@ public class Blink : MonoBehaviour
             m_isBlink = false;
             GameManager.Instance.TimerChange(false);
             Time.timeScale = 1;
+            
         }
     }
 }
