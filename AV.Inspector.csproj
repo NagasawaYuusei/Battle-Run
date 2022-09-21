@@ -56,51 +56,51 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Smart-Inspector\Base\Elements\TooltipElement.cs" />
-    <Compile Include="Assets\Smart-Inspector\Base\Utils\EditorUtils.cs" />
-    <Compile Include="Assets\Smart-Inspector\Patches\PropertyEditorPatch.cs" />
-    <Compile Include="Assets\Smart-Inspector\Base\Preferences\InspectorSettingsProvider.cs" />
-    <Compile Include="Assets\Smart-Inspector\Base\Elements\InspectorTabsBar.cs" />
-    <Compile Include="Assets\Smart-Inspector\Patches\PostHeaderGUIPatch.cs" />
-    <Compile Include="Assets\Smart-Inspector\Patches\Provider\PatchBase.cs" />
-    <Compile Include="Assets\Smart-Inspector\Base\Reflected\InspectorWindowRef.cs" />
-    <Compile Include="Assets\Smart-Inspector\Base\Utils\DictionaryUtils.cs" />
-    <Compile Include="Assets\Smart-Inspector\Patches\EditorHeaderItemPatch.cs" />
-    <Compile Include="Assets\Smart-Inspector\Patches\ObjectNamesPatch.cs" />
-    <Compile Include="Assets\Smart-Inspector\Patches\PrefabImporterPatch.cs" />
-    <Compile Include="Assets\Smart-Inspector\Patches\EditorElementPatch.cs" />
-    <Compile Include="Assets\Smart-Inspector\Patches\AssetPreviewPatch.cs" />
-    <Compile Include="Assets\Smart-Inspector\Base\PackageInfo.cs" />
-    <Compile Include="Assets\Smart-Inspector\Base\Preferences\InspectorPrefs.cs" />
-    <Compile Include="Assets\Smart-Inspector\Base\SmartInspector.Resources.cs" />
-    <Compile Include="Assets\Smart-Inspector\Patches\InspectorUtilsPatch.cs" />
-    <Compile Include="Assets\Smart-Inspector\Base\Reflected\PropertyEditorRef.cs" />
-    <Compile Include="Assets\Smart-Inspector\Base\SerializedTable.cs" />
-    <Compile Include="Assets\Smart-Inspector\Base\Elements\InspectorTab.cs" />
-    <Compile Include="Assets\Smart-Inspector\Base\Reflected\EditorElementRef.cs" />
-    <Compile Include="Assets\Smart-Inspector\Base\Preferences\InspectorPatchesUI.cs" />
-    <Compile Include="Assets\Smart-Inspector\Base\SmartInspector.cs" />
-    <Compile Include="Assets\Smart-Inspector\Patches\Provider\Patcher.cs" />
-    <Compile Include="Assets\Smart-Inspector\Drawers\ReadOnlyDrawer.cs" />
-    <Compile Include="Assets\Smart-Inspector\Patches\EditorDraggingPatch.cs" />
-    <Compile Include="Assets\Smart-Inspector\Base\UIResources.cs" />
-    <Compile Include="Assets\Smart-Inspector\Patches\GenericInspectorPatch.cs" />
-    <Compile Include="Assets\Smart-Inspector\Base\PackagePrefs.cs" />
-    <Compile Include="Assets\Smart-Inspector\Base\Utils\VisualElementUtils.cs" />
-    <Compile Include="Assets\Smart-Inspector\Base\Preferences\InspectorPrefsUI.cs" />
-    <Compile Include="Assets\Smart-Inspector\Drawers\UnityEventCompactDrawer.cs" />
-    <Compile Include="Assets\Smart-Inspector\Patches\EditorPatch.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Base\Preferences\InspectorSettingsProvider.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Base\SmartInspector.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Base\Preferences\InspectorPatchesUI.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Base\Preferences\InspectorPrefs.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Base\PackagePrefs.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Base\Utils\DictionaryUtils.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Patches\GenericInspectorPatch.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Patches\Provider\Patcher.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Base\SerializedTable.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Patches\EditorHeaderItemPatch.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Base\Reflected\EditorElementRef.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Patches\InspectorUtilsPatch.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Patches\EditorPatch.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Base\PackageInfo.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Patches\EditorDraggingPatch.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Base\Elements\TooltipElement.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Patches\PropertyEditorPatch.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Patches\AssetPreviewPatch.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Base\Elements\InspectorTab.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Patches\PostHeaderGUIPatch.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Base\Reflected\PropertyEditorRef.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Patches\Provider\PatchBase.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Base\Reflected\InspectorWindowRef.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Drawers\ReadOnlyDrawer.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Base\UIResources.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Base\Utils\VisualElementUtils.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Patches\EditorElementPatch.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Patches\PrefabImporterPatch.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Drawers\UnityEventCompactDrawer.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Base\Elements\InspectorTabsBar.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Patches\ObjectNamesPatch.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Base\Utils\EditorUtils.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Base\SmartInspector.Resources.cs" />
+    <Compile Include="Assets\Assets\Smart-Inspector\Base\Preferences\InspectorPrefsUI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Smart-Inspector\UI\Styles\headers.uss" />
-    <None Include="Assets\Smart-Inspector\UI\Styles\tabs-bar.uss" />
-    <None Include="Assets\Smart-Inspector\UI\Styles\tabs-bar-light.uss" />
-    <None Include="Assets\Smart-Inspector\UI\Styles\scroll-view.uss" />
-    <None Include="Assets\Smart-Inspector\AV.Inspector.asmdef" />
-    <None Include="Assets\Smart-Inspector\UI\Styles\tooltip-element.uss" />
-    <None Include="Assets\Smart-Inspector\Plugins\Smart-Inspector-Harmony.dll" />
-    <None Include="Assets\Smart-Inspector\UI\Styles\--inspector-prefs-ui.uss" />
-    <None Include="Assets\Smart-Inspector\UI\Styles\--inspector-prefs-ui-light.uss" />
+    <None Include="Assets\Assets\Smart-Inspector\UI\Styles\headers.uss" />
+    <None Include="Assets\Assets\Smart-Inspector\UI\Styles\tabs-bar.uss" />
+    <None Include="Assets\Assets\Smart-Inspector\UI\Styles\tabs-bar-light.uss" />
+    <None Include="Assets\Assets\Smart-Inspector\UI\Styles\scroll-view.uss" />
+    <None Include="Assets\Assets\Smart-Inspector\AV.Inspector.asmdef" />
+    <None Include="Assets\Assets\Smart-Inspector\UI\Styles\tooltip-element.uss" />
+    <None Include="Assets\Assets\Smart-Inspector\Plugins\Smart-Inspector-Harmony.dll" />
+    <None Include="Assets\Assets\Smart-Inspector\UI\Styles\--inspector-prefs-ui.uss" />
+    <None Include="Assets\Assets\Smart-Inspector\UI\Styles\--inspector-prefs-ui-light.uss" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -362,7 +362,7 @@
       <HintPath>Library\PackageCache\com.unity.ext.nunit@1.0.6\net35\unity-custom\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Smart-Inspector-Harmony">
-      <HintPath>Assets\Smart-Inspector\Plugins\Smart-Inspector-Harmony.dll</HintPath>
+      <HintPath>Assets\Assets\Smart-Inspector\Plugins\Smart-Inspector-Harmony.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.5f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\mscorlib.dll</HintPath>
