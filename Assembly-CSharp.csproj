@@ -74,13 +74,16 @@
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleEPOOutline.cs" />
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleUtils.cs" />
     <Compile Include="Assets\SceneManager\FadeController.cs" />
+    <Compile Include="Assets\Shader\test.cs" />
     <Compile Include="Assets\SceneManager\MusicManager.cs" />
     <Compile Include="Assets\Script\Game\Systems\SingletonMonoBehaviour.cs" />
     <Compile Include="Assets\Script\Game\Systems\IPause.cs" />
+    <Compile Include="Assets\MasterCube\Script\MasterCube.cs" />
     <Compile Include="Assets\Script\Player\SwordAttack.cs" />
     <Compile Include="Assets\Script\Player\GrapScript1.cs" />
     <Compile Include="Assets\SceneManager\SceneChange.cs" />
     <Compile Include="Assets\Script\Player\UseCamera.cs" />
+    <Compile Include="Assets\Script\ShaderControllerTest.cs" />
     <Compile Include="Assets\Script\Player\Blink.cs" />
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModulePhysics.cs" />
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleSprite.cs" />
@@ -88,8 +91,10 @@
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleAudio.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\MasterCube\README.txt" />
     <None Include="Assets\Material\Field\3DModell\RandomNoise.shader" />
     <None Include="Assets\Assets\Plugins\Demigiant\DOTween\DOTween.XML" />
+    <None Include="Assets\MasterCube\license.txt" />
     <None Include="Assets\ClassDiagrom\ReadMe.txt" />
     <None Include="Assets\Assets\Plugins\Demigiant\DOTween\DOTween.dll" />
     <None Include="Assets\Assets\Plugins\Demigiant\DOTween\readme.txt" />
