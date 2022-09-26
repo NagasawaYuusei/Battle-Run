@@ -85,10 +85,12 @@
     <Compile Include="Assets\Script\Player\UseCamera.cs" />
     <Compile Include="Assets\Script\ShaderControllerTest.cs" />
     <Compile Include="Assets\Script\Player\Blink.cs" />
+    <Compile Include="Assets\Script\nav.cs" />
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModulePhysics.cs" />
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleSprite.cs" />
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleUI.cs" />
     <Compile Include="Assets\Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleAudio.cs" />
+    <Compile Include="Assets\Script\InputSystemController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\MasterCube\README.txt" />

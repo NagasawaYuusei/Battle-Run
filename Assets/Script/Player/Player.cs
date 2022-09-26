@@ -246,20 +246,6 @@ public class Player : MonoBehaviour, IPause
         }
     }
 
-    /// <summary>ダッシュインプットシステム</summary>
-    //public void PlayerDash(InputAction.CallbackContext context)
-    //{
-    //    if(context.started)
-    //    {
-    //        m_isDashButton = true;
-    //    }
-
-    //    if(context.canceled)
-    //    {
-    //        m_isDashButton = true;
-    //    }
-    //}
-
     /// <summary>しゃがみインプットシステム</summary>
     public void PlayerDown(InputAction.CallbackContext context)
     {

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class test : MonoBehaviour
 {
@@ -9,10 +10,13 @@ public class test : MonoBehaviour
     bool _currentScan;
     [SerializeField] float _scanTime = 4.0f;
     [SerializeField] ShaderControllerTest _sc;
+    float _timer;
+    nav _nav;
 
     void Start()
     {
-        _firstMaterial = _go.GetComponent<Material>();
+        _firstMaterial = _go.GetComponent<MeshRenderer>().material;
+        _nav = FindObjectOfType<nav>();
     }
 
     void Update()
@@ -21,15 +25,17 @@ public class test : MonoBehaviour
     }
     void UpdateShaderParam()
     {
-        if (_currentScan && _value < _scanTime)
+        if (_currentScan && _timer < _scanTime)
         {
+            _timer += Time.deltaTime;
             _value += Time.deltaTime;
             _ClipMat.SetFloat("_Flag", _value);
         }
 
 
-        if (_value > _scanTime)
+        if (_currentScan && _timer >= _scanTime)
         {
+            _timer = 0;
             ResetValue();
             _currentScan = false;
         }
@@ -39,10 +45,22 @@ public class test : MonoBehaviour
     {
         _go.GetComponent<MeshRenderer>().material = _firstMaterial;
         _value = 0;
+        _nav.NavLine(false);
     }
 
-    public void Scan()
+    void Scan()
     {
+        _sc.UpdateShaderParam();
         _go.GetComponent<MeshRenderer>().material = _ClipMat;
+        _currentScan = true;
+        _nav.NavLine(true);
+    }
+
+    public void PlayerScan(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            Scan();
+        }
     }
 }

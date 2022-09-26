@@ -1,18 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ShaderControllerTest : MonoBehaviour
 {
     [SerializeField] Material _ClipMat;
+    [SerializeField] GameObject _player;
 
-    void Update()
+    public void UpdateShaderParam()
     {
-        UpdateShaderParam();
-    }
-    void UpdateShaderParam()
-    {
-        Vector4 pos = transform.position * -1;
+        Vector4 pos = _player.transform.position * -1;
         _ClipMat.SetVector("_ClipPosition", pos);
     }
 }
