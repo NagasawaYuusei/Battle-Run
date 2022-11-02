@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class FadeController : MonoBehaviour
 {
-    private static FadeController instance = default;
+    private static FadeController Instance = default;
     [Tooltip("フェードスピード")]
     [SerializeField]
     private float _fadeSpeed = 1f;
@@ -17,7 +17,12 @@ public class FadeController : MonoBehaviour
     private Color _startColor = Color.black;
     private void Awake()
     {
-        instance = this;
+        if(Instance)
+        {
+            Destroy(this);
+            return;
+        }
+        Instance = this;
         _fadeImage.gameObject.SetActive(false);
     }
 
@@ -27,12 +32,7 @@ public class FadeController : MonoBehaviour
     /// <param name="action"></param>
     public static void StartFadeIn(Action action = null)
     {
-        if (instance == null)
-        {
-            action?.Invoke();
-            return;
-        }
-        instance.StartCoroutine(instance.FadeIn(action));
+        Instance.StartCoroutine(Instance.FadeIn(action));
     }
     /// <summary>
     /// フェードアウト後にアクションする
@@ -40,22 +40,11 @@ public class FadeController : MonoBehaviour
     /// <param name="action"></param>
     public static void StartFadeOut(Action action = null)
     {
-        if (instance == null)
-        {
-            action?.Invoke();
-            return;
-        }
-        instance.StartCoroutine(instance.FadeOut(action));
+        Instance.StartCoroutine(Instance.FadeOut(action));
     }
     public static void StartFadeOutIn(Action outAction = null, Action inAction = null)
     {
-        if (instance == null)
-        {
-            outAction?.Invoke();
-            inAction?.Invoke();
-            return;
-        }
-        instance.StartCoroutine(instance.FadeOutIn(outAction, inAction));
+        Instance.StartCoroutine(Instance.FadeOutIn(outAction, inAction));
     }
     IEnumerator FadeOutIn(Action outAction, Action inAction)
     {

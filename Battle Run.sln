@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AV.Inspector.Runtime", "AV.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AV.Inspector", "AV.Inspector.csproj", "{6D08F579-7151-3264-F70E-31FF3851AD34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{A551835C-3D94-B4A1-3293-B5F62C792F7E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,10 +25,6 @@ Global
 		{6D08F579-7151-3264-F70E-31FF3851AD34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D08F579-7151-3264-F70E-31FF3851AD34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D08F579-7151-3264-F70E-31FF3851AD34}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A551835C-3D94-B4A1-3293-B5F62C792F7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A551835C-3D94-B4A1-3293-B5F62C792F7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A551835C-3D94-B4A1-3293-B5F62C792F7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A551835C-3D94-B4A1-3293-B5F62C792F7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

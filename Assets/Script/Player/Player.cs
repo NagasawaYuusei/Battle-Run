@@ -2,6 +2,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
 
+/// <summary>
+/// プレイヤーコントローラー
+/// </summary>
 public class Player : MonoBehaviour, IPause
 {
     [Header("Speed")]
@@ -70,6 +73,7 @@ public class Player : MonoBehaviour, IPause
     {
         m_pwr = GetComponent<PlayerWallRun>();
         UseCamera.CVC = m_firstCamera;
+        GameManager.Instance.SetPlayer(this.gameObject);
     }
 
     /// <summary>最初のセットアップ</summary>  
@@ -216,6 +220,11 @@ public class Player : MonoBehaviour, IPause
                 return false;
             }
         }
+        return false;
+    }
+
+    bool IsDeath()
+    {
         return false;
     }
 

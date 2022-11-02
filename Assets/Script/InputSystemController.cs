@@ -14,6 +14,7 @@ public class InputSystemController
     private Action<bool> DownEvent = default;
     private Action<bool> JumpEvent = default;
     private Action<bool> GrappleEvent = default;
+    private Action<bool> AttackEvent = default;
 
     public void SubScanEvent(Action<bool> action)
     {
@@ -104,6 +105,14 @@ public class InputSystemController
             //GameManager.Instance.TimerChange(false);
             //Time.timeScale = 1;
 
+        }
+    }
+
+    public void PlayerSword(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            
         }
     }
 }
